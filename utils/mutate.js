@@ -7,16 +7,16 @@
 */
 
 const mutate = (state, chain, value, trap) => {
-	let target = state
-	// use all keys expect last one in chain to get the target object
-	for (let i = 0; i <= chain.length - 2; i += 1) {
-		target = target[chain[i]]
-	}
-	// last key in chain, becomes the prop
-	const prop = chain[chain.length - 1]
+  let target = state
+  // use all keys expect last one in chain to get the target object
+  for (let i = 0; i <= chain.length - 2; i += 1) {
+    target = target[chain[i]]
+  }
+  // last key in chain, becomes the prop
+  const prop = chain[chain.length - 1]
 
-	// mutate using the Reflect API
-	Reflect[trap](target, prop, value)
+  // mutate using the Reflect API
+  Reflect[trap](target, prop, value)
 }
 
 export default mutate
