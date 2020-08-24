@@ -10,7 +10,6 @@ const checkForKey = (key, state, fnName) => {
 }
 
 
-
 // bind the given object's 'value' prop to value
 // and onChange, save the new value to object's 'value' prop from event
 // convert the value to number if the e.target's type is either range or number
@@ -20,7 +19,7 @@ export const bindValue = (state) => {
     value: state.value,
     onChange: (e) => {
       const { type } = e.target
-      const { value } = e.target
+      let value = e.target.value
       if (type === 'number' || type === 'range') value = Number(value)
       state.value = value
     },

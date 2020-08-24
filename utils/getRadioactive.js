@@ -24,33 +24,27 @@ const getRadioactive = (obj, onChange, chain = []) => {
     reactiveWrapper[key] = getRadioactive(obj[key], onChange, [...chain, key])
   })
 
-  let ignoreMode = false
+  let disableOnChange = false
 
   // then make the object itself reactive
-  const reactive = new Proxy(reactiveWrapper, {
+  return new Proxy(reactiveWrapper, {
 
     set(target, prop, value) {
-      if (typeof target !== 'object') return false
-      if (prop === '__ignoreMode__') ignoreMode = value
-      else {
-        if (ignoreMode) return Reflect.set(target, prop, value)
-        else onChange([...chain, prop], value, 'set', ignoreMode)
+      if (prop === '__disableOnChange__') {
+        disableOnChange = value
+        return true
       }
-      return true
+      else {
+        if (disableOnChange) return Reflect.set(target, prop, value)
+        return onChange([...chain, prop], value, 'set')
+      }
     },
 
     deleteProperty(target, prop) {
-      if (typeof target !== 'object') return false
-      if (ignoreMode) return Reflect.deleteProperty(target, prop)
-      if (target.hasOwnProperty(prop)) {
-        onChange([...chain, prop], undefined, 'deleteProperty')
-        return true
-      }
-      return false
+      if (disableOnChange) return Reflect.deleteProperty(target, prop)
+      return onChange([...chain, prop], undefined, 'deleteProperty')
     },
   })
-
-  return reactive
 }
 
 export default getRadioactive
