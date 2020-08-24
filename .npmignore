@@ -2,3 +2,4 @@ node_modules
 __test__
 .eslintrc.js
 .babel.config.js
+.vscode
