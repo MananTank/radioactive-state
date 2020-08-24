@@ -15,6 +15,7 @@ const mutate = (state, chain, value, trap) => {
   // last key in chain, becomes the prop
   const prop = chain[chain.length - 1]
 
+  if (typeof target !== 'object') throw new Error(`Can not set key "${prop}" on non-object type "${JSON.stringify(target)}" `)
   // mutate using the Reflect API
   Reflect[trap](target, prop, value)
 }

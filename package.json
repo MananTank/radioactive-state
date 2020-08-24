@@ -1,6 +1,6 @@
 {
   "name": "radioactive-state",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Make your React App deeply Reactive !",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
     "eslint-plugin-react-hooks": "^4.1.0",
     "jest": "^26.4.1"
   },
-  "dependencies": {
+  "peer-dependencies": {
     "react": "^16.13.1"
-  }
+  },
+  "dependencies": {}
 }
