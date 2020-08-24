@@ -1,14 +1,22 @@
-const mutate = (trap, state, chain, value) => {
-	let target = state
-	// do not use the last value of chain, last one becomes prop
-	for (let i = 0; i < chain.length - 1; i += 1) {
-		target = target[chain[i]] // setting
-	}
+/*
+* Mutate the given state using the chain value and trap
+* For example:
+* to do state.a.b.c.d[2] = 100
+* call the funcion like this :
+* mutate(state, ['a', 'b', 'c', 'd', '2'], 100, 'set')
+*/
 
+const mutate = (state, chain, value, trap) => {
+	let target = state
+	// use all keys expect last one in chain to get the target object
+	for (let i = 0; i <= chain.length - 2; i += 1) {
+		target = target[chain[i]]
+	}
+	// last key in chain, becomes the prop
 	const prop = chain[chain.length - 1]
-	// console.log('mutate: ', {target, prop, value})
+
+	// mutate using the Reflect API
 	Reflect[trap](target, prop, value)
-	// return state
 }
 
 export default mutate

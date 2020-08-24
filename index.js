@@ -33,7 +33,7 @@ const useRadioActive = initialState => {
 
 		// when ignoreMode is on, any mutations made to reactive state does not not call onChange method
 		savedReactive.current.__ignoreMode__ = true
-		mutate(trap, savedReactive.current, chain, value)
+		mutate(savedReactive.current, chain, value, trap)
 		savedReactive.current.__ignoreMode__ = false
 
 		// when the first mutation comes, make the timer
@@ -49,7 +49,7 @@ const useRadioActive = initialState => {
 				// for rest of mutations, directly mutate newState, this is essentailly batching mutations together
 				for (let i = 1; i < mutations.length; i++) {
 					const [chain, value, trap] = mutations[i]
-					mutate(trap, newState, chain, value)
+					mutate(newState, chain, value, trap)
 				}
 
 				console.log('batched ', mutations.length)
