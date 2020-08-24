@@ -10,7 +10,7 @@
 // last key in chain, becomes the prop
 // mutate using the Reflect API
 
-const mutate = (state, chain, value, trap) => {
+export const mutate = (state, chain, value, trap) => {
   let target = state
   chain.slice(0, -1).forEach(key => target = target[key])
   const prop = chain[chain.length - 1]
@@ -18,3 +18,10 @@ const mutate = (state, chain, value, trap) => {
 }
 
 export default mutate
+
+export const silentMutate = (state, ...args) => {
+  state.__disableOnChange__ = true
+  const success = mutate(state, ...args)
+  state.__disableOnChange__ = false
+  return success
+}
