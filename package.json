@@ -1,6 +1,6 @@
 {
   "name": "radioactive-state",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Make your React App deeply radioactive !",
   "main": "index.js",
   "scripts": {
