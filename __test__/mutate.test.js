@@ -1,5 +1,6 @@
 import mutate from '../utils/mutate'
 
+
 test('shallow mutations (set) on object', () => {
   const obj = {
     a: 100,

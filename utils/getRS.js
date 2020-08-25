@@ -1,5 +1,5 @@
 /*
- * getRadioactive returns a "radioactive" object
+ * getRS returns a "radioactive" object
  * whenever any of it's key or any of it's children's key is mutated, onChange is called
  * onChange is called with (chain, value, trap)
  * chain is basically full 'patch' where the mutation took place
@@ -12,23 +12,23 @@
  * * trap : 'set'
  */
 
-const getRadioactive = (obj, onChange, chain = []) => {
-  // non-object types can not be reactive
+// all RS should share the same disableOnChange
+let disableOnChange = false
+
+const getRS = (obj, onChange, chain = []) => {
+  // non-object types can not be radioactive
   if (typeof obj !== 'object' || obj === null) return obj
 
   // make wrapper to save reacitified children
-  const reactiveWrapper = Array.isArray(obj) ? [] : {}
+  const radioactiveWrapper = Array.isArray(obj) ? [] : {}
 
   // save reactified children to wrapper
   Object.keys(obj).forEach((key) => {
-    reactiveWrapper[key] = getRadioactive(obj[key], onChange, [...chain, key])
+    radioactiveWrapper[key] = getRS(obj[key], onChange, [...chain, key])
   })
 
-  let disableOnChange = false
-
-  // then make the object itself reactive
-  return new Proxy(reactiveWrapper, {
-
+  // then make the object itself radioactive
+  return new Proxy(radioactiveWrapper, {
     set(target, prop, value) {
       if (prop === '__disableOnChange__') {
         disableOnChange = value
@@ -47,4 +47,4 @@ const getRadioactive = (obj, onChange, chain = []) => {
   })
 }
 
-export default getRadioactive
+export default getRS

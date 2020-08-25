@@ -1,3 +1,4 @@
+
 /*
 * Mutate the given state using the chain value and trap
 * For example:
@@ -17,11 +18,14 @@ export const mutate = (state, chain, value, trap) => {
   return Reflect[trap](target, prop, value)
 }
 
+
 export default mutate
 
+
+// silent mutate mutates the radioactive state in a way that does not trigger onChange
 export const silentMutate = (state, ...args) => {
   state.__disableOnChange__ = true
-  const success = mutate(state, ...args)
+  const success = mutate(state, ...args )
   state.__disableOnChange__ = false
   return success
 }
