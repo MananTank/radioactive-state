@@ -41,7 +41,6 @@ const getRS = (obj, onChange, chain = []) => {
         return {
           [key]: target[prop],
           onChange:  e => {
-            console.log(e.target.value, e.target.checked)
             let value = e.target[key]
             if (typeof target[prop] === 'number') value = Number(value)
             onChange([...chain, prop], value, 'set')
