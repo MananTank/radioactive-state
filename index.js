@@ -3,13 +3,16 @@ import getRS from './utils/getRS'
 import getOnChange from './utils/getOnChange'
 import {checkInitialState} from './utils/errors'
 
-
-const useRS = initialState => {
+const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const RS = useRef()
 
   // when running this hook for the first time
   if (!RS.current) {
+    let initialState = arg
+    if (typeof initialState === 'function') {
+      initialState = arg()
+    }
     checkInitialState(initialState)
     const onChange = getOnChange(RS, forceUpdate)
     RS.current = getRS(initialState, onChange)
@@ -19,5 +22,5 @@ const useRS = initialState => {
 }
 
 export default useRS
-export * from './utils/binds'
+// export * from './utils/binds'
 
