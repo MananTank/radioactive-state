@@ -1,7 +1,7 @@
 {
   "name": "radioactive-state",
   "version": "1.1.0",
-  "description": "Make your React App deeply radioactive !",
+  "description": "Make your React App truly reactive !",
   "main": "index.js",
   "scripts": {
     "test": "jest"
