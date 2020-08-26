@@ -22,5 +22,4 @@ const useRS = arg => {
 }
 
 export default useRS
-// export * from './utils/binds'
 
