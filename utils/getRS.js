@@ -29,6 +29,28 @@ const getRS = (obj, onChange, chain = []) => {
 
   // then make the object itself radioactive
   return new Proxy(radioactiveWrapper, {
+
+
+    // for reactive bindings
+    get(target, $prop) {
+
+      if ($prop[0] === '$') {
+        const prop = $prop.substr(1)
+        let key = 'value'
+        if (typeof target[prop] === 'boolean') key = 'checked'
+        return {
+          [key]: target[prop],
+          onChange:  e => {
+            console.log(e.target.value, e.target.checked)
+            let value = e.target[key]
+            if (typeof target[prop] === 'number') value = Number(value)
+            onChange([...chain, prop], value, 'set')
+          }
+        }
+      }
+      return Reflect.get(target, $prop)
+    },
+
     set(target, prop, value) {
       if (prop === '__disableOnChange__') {
         disableOnChange = value
