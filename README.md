@@ -1,8 +1,9 @@
+<!-- logo -->
 <p align="center">
-  <img width="150" src="img/radioactive-state.svg">
+  <img width='300' src="img/logo-and-text.svg">
 </p>
 
-<h1 align='center'> radioactive-state </h1>
+<!-- tag line -->
 <h3 align='center'> Make Your React App Truly Reactive ! </h3>
 
 <!-- badges -->
@@ -26,10 +27,20 @@
 <!-- follow -->
 <img src='https://img.shields.io/github/followers/MananTank?label=Follow&style=flat&color=%23FFB31A' />
 
+<!-- Tweet intent -->
+<p align='center'>
+<a href='https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FMananTank%2Fradioactive-state&via=MananTank_&text=Make%20your%20@react%20App%20Truly%20Reactive%20with%20radioactive-state&hashtags=react%2CradioactiveState' target='_blank'>
+
+<img src='https://img.shields.io/twitter/url/http/shields.io.svg?style=social'/>
+</a>
+</p>
+
 </p>
 
 <br/>
 <!-- badges -->
+
+<!-- hash:  -->
 
 ## Features
 
@@ -88,15 +99,15 @@ Let's create the easiest thing ever - A Counter app
 import useRS from 'radioactive-state';
 
 const Counter = () => {
-	// create a radioactive state
-	const state = useRS({
-		count: 0,
-	});
+  // create a radioactive state
+  const state = useRS({
+    count: 0,
+  });
 
-	// yep, that's it
-	const increment = () => state.count++;
+  // yep, that's it
+  const increment = () => state.count++;
 
-	return <div onClick={increment}>{state.count}</div>;
+  return <div onClick={increment}>{state.count}</div>;
 };
 ```
 
@@ -116,29 +127,29 @@ Let's take this a step further, Let's make an app that has an array of counters,
 import useRS from 'radioactive-state';
 
 const Counters = () => {
-	const state = useRS({
-		counts: [0],
-	});
+  const state = useRS({
+    counts: [0],
+  });
 
-	// deep mutation also triggers re-render !
-	const increment = i => state.counts[i]++;
-	const addCounter = () => state.counts.push(0);
+  // deep mutation also triggers re-render !
+  const increment = i => state.counts[i]++;
+  const addCounter = () => state.counts.push(0);
 
-	return (
-		<>
-			<button onClick={addCounter}> Add Counter </button>
+  return (
+    <>
+      <button onClick={addCounter}> Add Counter </button>
 
-			<div className='counts'>
-				{state.counts.map((count, i) => (
-					<div className='count' onClick={() => increment(i)} key={i}>
-						{count}
-					</div>
-				))}
-			</div>
+      <div className='counts'>
+        {state.counts.map((count, i) => (
+          <div className='count' onClick={() => increment(i)} key={i}>
+            {count}
+          </div>
+        ))}
+      </div>
 
-			<div className='count total'>{state.counts.reduce((x, sum) => sum + x, 0)}</div>
-		</>
-	);
+      <div className='count total'>{state.counts.reduce((x, sum) => sum + x, 0)}</div>
+    </>
+  );
 };
 
 export default Counters;
@@ -162,14 +173,14 @@ You might be wondering:
 // suppose you are mutating multiple things in your state in a function "doStuff"
 
 const doStuff = () => {
-	state.a = 200;
-	state.b.x.y.push([10, 20, 30]);
-	state.c++;
-	state.c++;
-	state.c++;
-	delete state.d.e.f;
-	state.e.splice(10, 1);
-	state.f = state.f.filter(x => x.completed);
+  state.a = 200;
+  state.b.x.y.push([10, 20, 30]);
+  state.c++;
+  state.c++;
+  state.c++;
+  delete state.d.e.f;
+  state.e.splice(10, 1);
+  state.f = state.f.filter(x => x.completed);
 };
 
 // let's say this function is called,
@@ -178,6 +189,6 @@ const doStuff = () => {
 // it will only re-render the component only 1 time! - No extra re-renders! 🤗
 ```
 
-#### How is that possible ?
+#### 🤨 How is that possible ?
 
-When you make the first mutation, radioactive-state schedules an async re-render. Meaning that after all the sync code (doStuff's code) executes, only then component re-renders, and only once !
+When you start mutating your state, radioactive-state schedules an async re-render to run after the all the sync code is executed. So, No matter how many times you mutate the state, it only triggers re-render once 😙
