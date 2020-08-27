@@ -1,11 +1,10 @@
 <p align="center">
-  <img width="200" src="img/radioactive-state.svg">
+  <img width="150" src="img/radioactive-state.svg">
 </p>
 
 <h1 align='center'> radioactive-state </h1>
 <h3 align='center'> Make Your React App Truly Reactive ! </h3>
 
-<br/>
 
 <!-- badges -->
 <p align="center">
@@ -44,7 +43,7 @@
 
 🧬 **Reactive Bindings** For Inputs
 
-🔁 Automatic **Two-Way Binding**
+🔁 Free **Two-Way Binding**
 
 📺 No Extra Re-Renders - **Auto Mutation batching**
 
@@ -56,7 +55,7 @@
 
 ## 🤔 Motivation
 
-While the React's `useState` hook has been great for simple states, it is still **a pain to update a complex state** manually.
+While the React's `useState` hook has been great for simple states, it is still **a pain to update a complex state**.
 
 It also comes with other problems like **not having the access to fresh state right away** after the state is set and async event handlers using the old value of state because of closure. These problems occur because `useState`'s state only updates after a re-render. This can create frustrating bugs.
 
@@ -81,8 +80,6 @@ No need to set the state. No need to use libraries like immer.js to produce a ne
 
 `radioactive-state` gives you a hook to create a radioactive-state in your component. Let's see it in action
 
-> You can call that hook whatever you want since its default export, I'll call it useRS ( meaning: use radioactive state )
-
 ### Counter Example
 
 Let's create the easiest thing ever - A Counter app
@@ -91,20 +88,22 @@ Let's create the easiest thing ever - A Counter app
 <img align='center' src='img/counter.gif' width='450'/>
 </p>
 
+
 ```jsx
 import useRS from "radioactive-state";
 
 const Counter = () => {
+
   // create a radioactive state
   const state = useRS({
     count: 0
   });
 
-  // 🌟 mutating the state triggers a re-render
+  // yep, that's it
   const increment = () => state.count++;
 
   return (
-    <div className="count" onClick={increment}>
+    <div onClick={increment} >
       {state.count}
     </div>
   );
@@ -112,6 +111,5 @@ const Counter = () => {
 
 ```
 
-
-
+<a href='https://codesandbox.io/s/counter-example-v9bsh?file=/src/Counter.js' target="_blank" title='counter app'>Open in CodeSandbox</a>
 
