@@ -10,30 +10,27 @@
 <p align="center">
 
 <!-- version -->
-<img src='https://img.shields.io/github/package-json/v/MananTank/radioactive-state?color=%23FFB31A&label=npm&style=flat' />
+<img src='https://img.shields.io/github/package-json/v/MananTank/radioactive-state?color=blue&label=npm&style=flat' />
 
 <!-- size -->
-<img src='https://img.shields.io/bundlephobia/minzip/radioactive-state?color=%23FFB31A&label=size' />
+<img src='https://img.shields.io/bundlephobia/minzip/radioactive-state?color=success&label=size' />
 
 <!-- downloads npm per week  -->
-<img src='https://img.shields.io/npm/dw/radioactive-state?color=%23FFB31A' />
+<img src='https://img.shields.io/npm/dw/radioactive-state?color=blueviolet' />
 
 <!-- language  -->
-<img src='https://img.shields.io/github/languages/top/MananTank/radioactive-state?color=%23FFB31A&style=flat' />
+<img src='https://img.shields.io/github/languages/top/MananTank/radioactive-state?color=critical&style=flat' />
 
 <!-- stars -->
-<img src='https://img.shields.io/github/stars/MananTank/radioactive-state?style=flat&color=%23FFB31A' />
+<img src='https://img.shields.io/github/stars/MananTank/radioactive-state?style=social&color=%23FFB31A' />
 
 <!-- follow -->
-<img src='https://img.shields.io/github/followers/MananTank?label=Follow&style=flat&color=%23FFB31A' />
+<img src='https://img.shields.io/github/followers/MananTank?label=Follow&style=social&color=%23FFB31A' />
 
-<!-- Tweet intent -->
-<p align='center'>
 <a href='https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FMananTank%2Fradioactive-state&via=MananTank_&text=Make%20your%20@react%20App%20Truly%20Reactive%20with%20radioactive-state&hashtags=react%2CradioactiveState' target='_blank'>
 
 <img src='https://img.shields.io/twitter/url/http/shields.io.svg?style=social'/>
 </a>
-</p>
 
 </p>
 
@@ -87,13 +84,15 @@ No need to set the state. No need to use libraries like immer.js to produce a ne
 
 `radioactive-state` gives you a hook to create a radioactive-state in your component. Let's see it in action
 
-### Counter Example
+### Examples
 
-Let's create the easiest thing ever - A Counter app
-
-<p align='center'>
+<details>
+<summary> 🍭 <strong>Counter App</strong> <p align='center'>
 <img align='center' src='img/counter.gif' width='450'/>
-</p>
+</p> </summary>
+<br/>
+
+
 
 ```jsx
 import useRS from 'radioactive-state';
@@ -113,15 +112,14 @@ const Counter = () => {
 
 <a href='https://codesandbox.io/s/counter-example-v9bsh?file=/src/Counter.js' target="_blank" title='counter app'>Open in CodeSandbox</a>
 
-<br />
+</details>
 
-## Counters Example
+---
+
+<details> <summary> 🍡 <strong> Array Of Counters App </strong> <p align='center'> <img align='center' src='img/counters.gif' width='450'/> </p></summary>
 
 Let's take this a step further, Let's make an app that has an array of counters, each of them can be incremented individually and all of their sum is displayed too
 
-<p align='center'>
-  <img align='center' src='img/counters.gif' width='650'/>
-</p>
 
 ```jsx
 import useRS from 'radioactive-state';
@@ -157,6 +155,7 @@ export default Counters;
 
 <a href='https://codesandbox.io/s/counters-example-sctz6?file=/src/Counters.js' target="_blank" title='counter app'>Open in CodeSandbox</a>
 
+</details>
 <br />
 
 ## 📺 No Extra Re-Renders, Mutations are Batched
@@ -167,10 +166,10 @@ You might be wondering:
 
 **Nope!** 😉
 
-#### Let me give you an example:
+#### Example:
 
 ```js
-// suppose you are mutating multiple things in your state in a function "doStuff"
+// suppose you are mutating multiple things in your state in a function doStuff
 
 const doStuff = () => {
   state.a = 200;
@@ -183,12 +182,125 @@ const doStuff = () => {
   state.f = state.f.filter(x => x.completed);
 };
 
-// let's say this function is called,
-
-// don't worry, this is **not** going to re-render component 8 times 😉
-// it will only re-render the component only 1 time! - No extra re-renders! 🤗
+// When this function is called
+// it is not **not** going to trigger re-render of component 8 times 😉
+// it will only trigger re-render 1 time! - No extra re-renders! 🤗
 ```
 
 #### 🤨 How is that possible ?
 
 When you start mutating your state, radioactive-state schedules an async re-render to run after the all the sync code is executed. So, No matter how many times you mutate the state, it only triggers re-render once 😙
+
+
+<br/>
+
+## 🌿 State is always fresh
+
+unlike `useState`, `useRS`'s state is always fresh
+
+#### What does that mean ?
+
+when you set a new state using `useState`'s setter function, it does not directly change the value of state. value of state is changed only after a re-render. This can cause some weird bugs
+
+
+<details>
+<summary>
+<code>useState</code>'s state is not always fresh</summary>
+
+```js
+const [count, setCount] = useState(0)
+
+// inside this function, count's value will not change
+const increment = () => {
+  console.log('before: ', count)
+  setCount(count + 1)
+  console.log('after: ', count)
+}
+
+// when increment is called, you would get this logs:
+
+// before: 0
+// after: 0
+
+// this happens to reference type data as well
+```
+
+<a href='https://codesandbox.io/s/usestate-s-state-is-not-always-fresh-pfzpw?file=/src/App.js' target='_black'>
+Open in CodeSanbox
+</a>
+
+<br/>
+<br/>
+
+#### `useRS` solves it !
+
+`useRS`'s **state instantly changes it's value** when mutated and does not wait for a re-render.
+
+```js
+const state = useRS({
+    count: 0
+  })
+
+const increment = () => {
+  console.log('before: ', state.count)
+  state.count++
+  console.log('after: ', state.count)
+}
+
+// works as expected 😄
+// before: 0
+// after: 1
+```
+
+<a href='https://codesandbox.io/s/usestate-s-state-is-not-always-fresh-pfzpw?file=/src/App.js' target='_black'>
+Open in CodeSanbox
+</a>
+
+<br/>
+<br/>
+
+With radioactive-state, You can use your state with confidence that whenever you use it, it's gonna be fresh ! 😙
+
+<br/>
+
+</details>
+
+<details>
+<summary><code>useState</code>'s closure problem </summary>
+
+Let's assume that increment function is async and before incrementing the value of count, we have to wait for some async task.
+
+```js
+const [count, setCount] = useState(0)
+
+const increment = async () => {
+  await someAsyncTask(); // assume that this takes about 500ms
+  setCount(count + 1) // does not work properly
+}
+```
+Now guess what happens if users clicks counter quickly 3 times? count is only going to increment to 1 instead of 3, even though increment function is called 3 times
+
+This happens because setCount keeps using old value of count until the component re-renders.
+This is due to increment function closing over the count when it was defined.
+
+```js
+// to fix this you have to set the state like this
+// this creates confusion about what happens when
+setCount(previousCount => previousCount + 1)
+```
+
+This gets really complex when you want to update other states based newValue of one state. We would have to nest setters one inside another 🤮
+
+#### `useRS` solves it !
+
+```js
+
+const increment = async () => {
+  await someAsyncTask(); // assume that this takes about 500ms
+  state.count++ // works ! 😙
+}
+
+```
+
+If you click the button 3 times quickly, count will only increment from 0 to 3 after 500ms. It works as expected 🙌
+</details>
