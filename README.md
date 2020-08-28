@@ -80,11 +80,10 @@ No need to set the state. No need to use libraries like immer.js to produce a ne
 
 <br/>
 
-## Creating a radioactive-state with useRS hook
+## Examples
 
-`radioactive-state` gives you a hook to create a radioactive-state in your component. Let's see it in action
-
-### Examples
+`radioactive-state` gives you a hook - `useRS` ( use radioactive state ) which lets you create a radioactive state in your React Components.
+Let's see a few simple examples :
 
 <details>
 <summary> 🍭 <strong>Counter App</strong> <p align='center'>
@@ -189,28 +188,35 @@ const doStuff = () => {
 
 #### 🤨 How is that possible ?
 
-When you start mutating your state, radioactive-state schedules an async re-render to run after the all the sync code is executed. So, No matter how many times you mutate the state, it only triggers re-render once 😙
+When you start mutating your state, radioactive-state schedules an async re-render to run after all the sync code is executed.
+So, No matter how many times you mutate the state, it only triggers re-render once 😙
 
 
 <br/>
 
-## 🌿 State is always fresh
+## 🌿 State is always fresh !
 
 unlike `useState`, `useRS`'s state is always fresh
 
 #### What does that mean ?
 
 when you set a new state using `useState`'s setter function, it does not directly change the value of state. value of state is changed only after a re-render. This can cause some weird bugs
+Let's see those problems and how `useRS` solves it.
 
 
 <details>
+
 <summary>
 <code>useState</code>'s state is not always fresh</summary>
+
+<br/>
+
+Let's add Logs before and after the state is set in our counter app.
+
 
 ```js
 const [count, setCount] = useState(0)
 
-// inside this function, count's value will not change
 const increment = () => {
   console.log('before: ', count)
   setCount(count + 1)
@@ -218,15 +224,14 @@ const increment = () => {
 }
 
 // when increment is called, you would get this logs:
-
 // before: 0
 // after: 0
 
-// this happens to reference type data as well
+// same thing happens no matter what data type you are using - reference type or value type
 ```
 
 <a href='https://codesandbox.io/s/usestate-s-state-is-not-always-fresh-pfzpw?file=/src/App.js' target='_black'>
-Open in CodeSanbox
+Live Demo
 </a>
 
 <br/>
@@ -234,7 +239,7 @@ Open in CodeSanbox
 
 #### `useRS` solves it !
 
-`useRS`'s **state instantly changes it's value** when mutated and does not wait for a re-render.
+`useRS`'s state is mutated directly by the user. So, **No need to wait for a re-render to get the fresh state**.
 
 ```js
 const state = useRS({
@@ -253,7 +258,7 @@ const increment = () => {
 ```
 
 <a href='https://codesandbox.io/s/usestate-s-state-is-not-always-fresh-pfzpw?file=/src/App.js' target='_black'>
-Open in CodeSanbox
+Live Demo
 </a>
 
 <br/>
