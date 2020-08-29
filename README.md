@@ -279,7 +279,8 @@ With radioactive-state, You can use your state with confidence that whenever you
 
 Let's assume that increment function is async and before incrementing the value of count, we have to wait for some async task.
 
-Now guess what happens if users clicks counter quickly 3 times? count is only going to increment to 1 instead of 3, even though increment function is called 3 times !
+Now guess what happens if you click the counter quickly 3 times?
+count is only going to increment to 1 instead of 3, even though increment function is called 3 times !
 
 ```js
 const [count, setCount] = useState(0)
@@ -300,16 +301,20 @@ This happens because setCount keeps using old value of count until the component
 This is because increment function "closes over" the count when it was defined
 
 ```js
-// to fix this you have to set the state like this
+// to fix this you have would have to set the state like this
 // this creates confusion about what happens when
 setCount(previousCount => previousCount + 1)
 ```
 
-This gets really complex when you want to update other states based newValue of one state. We would have to nest setters one inside another 🤮
+This gets really complex when you want to update other states based newValue of one state.
+We would have to nest setters one inside another 🤮
 
 #### `useRS` does not have this problem !
 
 ```js
+const state = useRS({
+  count: 0
+})
 
 const increment = async () => {
   await someAsyncTask(); // assume that this takes about 500ms
@@ -349,58 +354,90 @@ But, in case of `radioactive-state` **you don't have to create a new state**, yo
 
 ## 🧬 Reactive bindings for inputs
 
-Let's say you want to create a controlled input
+
 
 <details>
-<summary> You can do this - the old way using <code>useState</code> </summary>
+<summary> You can create a controlled input the old way like this </summary>
+
+
+### using the `useState`
+```jsx
+
+const [input, setInput] = useState("type something");
+
+<input
+  value={input}
+  onChange={(e) => setInput(e.target.value)}
+  type='text'
+/>
+```
+
+### using the useRS
 
 ```jsx
 // creating state
-const [input, setInput] = useState("type something");
-
-// and then you use bind it like this using value and onChange prop
-<input value={input} onChange={(e) => setInput(e.target.value)} type='text'/>
-```
-
-That is fairly easy but very annoying to do if you have a form with multiple inputs
-
-You would also have to convert string to number if the input is type 'number' or 'range'.
-You would also need to use 'checked' prop instead of 'value' for checkboxes and radios
-</details>
-
-<br/>
-
-> " Me think, Why waste time say lot word, when few word do trick ? "
-
-#### We can simplify it with Reactive bindings !
-
-
-
-```jsx
 const state = useRS({
   input: ''
 })
 
-// that's it !
-<input {...state.$input} type='text' />
-
-// prefix the thing you want to bind with $ and spread it
-// it will automatically set the appropriate value and onChange props
+<input
+  value={state.input}
+  onChange={(e) => state.input = e.target.value}
+  type='text'
+/>
 ```
 
-<p align='center'>
-<img align='center' src='img/reactive-input.gif' width='450'/>
-</p>
+Both are fairly easy but becomes annoying if you have a form with multiple inputs
 
-<a href='https://codesandbox.io/s/reactive-binding-simple-input-kcwvf?file=/src/App.js' target='_black'>
-Live Demo
-</a>
+You would also have to convert string to number if the input is type 'number' or 'range'.
+You would also need to use 'checked' prop instead of 'value' for checkboxes and radios
+
+---
+
+</details>
+
+<br/>
+
+radioactive-state provides a binding API that lets you bind an input's value to a key in state.
+
+To bind `state.key` to an input you prefix the key with $ - `state.$key` and then spread over the input. that's it ! 😮
+
+```js
+<input {...state.$key}  />
+```
 
 
-### Reactive Bindings are smart
+This works because, `state.key` returns the value but `state.$key` returns an object containing value and onChange props, which we are spreading over input
 
-Depending on what the initial value you provide in the state, it can figure out what kind of input we are working with
+#### Bindings takes care of different types of inputs
 
-If the initial value is boolean it uses gives `checked` prop to input instead of `value`
+Bindings **rely on initial value of the key** in state to figure out what type of input it is
 
-If the input type is `number` of `range`, it automatically converts the string to number and then saves it to state
+if the initial value is a type of `string` or `number`, `state.$key` return `value` and `onChange`.
+If the initial value is of type `boolean`, `state.$key` returns `checked` and `onChange` props and uses `e.target.checked` internally
+
+If the initial value is `number` type, onChange function converts the `e.target.value` from `string` to `number` then saves it
+
+#### Example
+
+```jsx
+
+const state = useRS({
+  a: 20,
+  b: 10,
+  c: true,
+  d: false,
+  e: '',
+  f: '',
+  g: ''
+})
+
+<input type='number' {...state.$age} />
+<input type='range' {...state.$b} />
+<input type='checkbox' {...state.$c} />
+<input type='radio' {...state.$d} />
+<input type='text' {...state.$e} />
+<textarea {...state.$f} />
+<select {...state.$g}> ... </select>
+
+```
