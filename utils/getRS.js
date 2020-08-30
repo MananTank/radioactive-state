@@ -6,7 +6,7 @@
  *
  * For Example:
  *
- * * obj.a.b.c.d[2] = 100
+ * * state.a.b.c.d[2] = 100
  * * chain : ['a', 'b', 'c', 'd', '2']
  * * value : 100
  * * trap : 'set'
@@ -15,23 +15,42 @@
 // all RS should share the same disableOnChange
 let disableOnChange = false
 
-const getRS = (obj, onChange, chain = []) => {
+const getRS = (_state, onChange, chain = []) => {
+
+  // if state is a function, call that function and use that as state
+  const state = typeof _state === 'function' ? _state() : _state
+
   // non-object types can not be radioactive
-  if (typeof obj !== 'object' || obj === null) return obj
+  if (typeof state !== 'object' || state === null) return state
 
-  // make wrapper to save reacitified children
-  const radioactiveWrapper = Array.isArray(obj) ? [] : {}
+  // make wrapper to save reactive children
+  const radioactiveWrapper = Array.isArray(state) ? [] : {}
 
-  // save reactified children to wrapper
-  Object.keys(obj).forEach((key) => {
-    radioactiveWrapper[key] = getRS(obj[key], onChange, [...chain, key])
+  // save reactive children to wrapper
+  Object.keys(state).forEach((key) => {
+    radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
 
   // then make the object itself radioactive
   return new Proxy(radioactiveWrapper, {
 
+    set(target, prop, value) {
+      if (prop === '__disableOnChange__') {
+        disableOnChange = value
+        return true
+      }
+      else {
+        if (disableOnChange) return Reflect.set(target, prop, value)
+        return onChange([...chain, prop], value, 'set')
+      }
+    },
 
-    // for reactive bindings
+    deleteProperty(target, prop) {
+      if (disableOnChange) return Reflect.deleteProperty(target, prop)
+      return onChange([...chain, prop], undefined, 'deleteProperty')
+    },
+
+    // for reactive bindings of inputs
     get(target, $prop) {
 
       if ($prop[0] === '$') {
@@ -50,21 +69,6 @@ const getRS = (obj, onChange, chain = []) => {
       return Reflect.get(target, $prop)
     },
 
-    set(target, prop, value) {
-      if (prop === '__disableOnChange__') {
-        disableOnChange = value
-        return true
-      }
-      else {
-        if (disableOnChange) return Reflect.set(target, prop, value)
-        return onChange([...chain, prop], value, 'set')
-      }
-    },
-
-    deleteProperty(target, prop) {
-      if (disableOnChange) return Reflect.deleteProperty(target, prop)
-      return onChange([...chain, prop], undefined, 'deleteProperty')
-    },
   })
 }
 

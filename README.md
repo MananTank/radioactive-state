@@ -41,21 +41,33 @@
 
 ## Features
 
-☢ **Deeply Reactive**, Directly Mutate State at any level to Update Component
+☢ Deeply Reactive, Directly Mutate State at any level to Update Component
 
-🏎️ **Blazing Fast** - 25% faster than `useState`
+🏎️ Blazing Fast - 25% faster than `useState`
 
-🌿 **Always Fresh State**, _unlike_ `useState`
+📺 No Extra Re-Renders - Auto Mutation batching
 
-🧬 **Reactive Bindings** For Inputs
+🌿 Always Fresh State, _unlike_ `useState`
 
-🔁 Free **Prop Binding**
+🧬 Reactive Bindings For Inputs
 
-📺 No Extra Re-Renders - **Auto Mutation batching**
+⚛ Reactive Props !
 
-☕ **Zero Dependencies**, Ultra Light-Weight `830 b`
+
+☕ Zero Dependencies, Ultra Light-Weight `830 b`
 
 <br />
+
+---
+<br/>
+
+## 🎯 Goal
+
+**Make React development as easy as possible** with an elegant and powerful state management API that improves your workflow and makes your applications faster and less error prone.
+
+"Write less, do more and do it with elegance."
+
+<br/>
 
 ## 🤔 Motivation
 
@@ -63,7 +75,7 @@ While the React's `useState` hook has been great for simple states, it is still 
 
 It also comes with other problems like **not having the access to fresh state right away** after the state is set and async event handlers using the old value of state because of closure. These problems occur because `useState`'s state only updates after a re-render. This can create frustrating bugs.
 
-We can eliminate all these problems and even introduce exciting new features in React with a **Truly Reactive State !**
+We can eliminate all these problems and introduce exciting new features in React with a **Truly Reactive State !**
 
 Enter `radioactive-state`
 
@@ -119,37 +131,41 @@ const Counter = () => {
 
 Let's take this a step further, Let's make an app that has an array of counters, each of them can be incremented individually and all of their sum is displayed too
 
+This examples shows that deep mutation also triggers a re-render and that **you can use any mutative functions directly**, you don't have to create new state.
+
 
 ```jsx
-import useRS from 'radioactive-state';
+import useRS from "radioactive-state";
+
 
 const Counters = () => {
+
   const state = useRS({
     counts: [0],
+    sum: 0
   });
 
-  // deep mutation also triggers re-render !
-  const increment = i => state.counts[i]++;
+  const increment = (i) => {
+    state.counts[i]++;
+    state.sum++;
+  };
+
   const addCounter = () => state.counts.push(0);
 
   return (
     <>
       <button onClick={addCounter}> Add Counter </button>
-
-      <div className='counts'>
+      <div className="counts">
         {state.counts.map((count, i) => (
-          <div className='count' onClick={() => increment(i)} key={i}>
+          <div className="count" onClick={() => increment(i)} key={i}>
             {count}
           </div>
         ))}
       </div>
-
-      <div className='count total'>{state.counts.reduce((x, sum) => sum + x, 0)}</div>
+      <div className="count sum">{state.sum}</div>
     </>
   );
 };
-
-export default Counters;
 ```
 
 <a href='https://codesandbox.io/s/counters-example-sctz6?file=/src/Counters.js' target="_blank" title='counter app'>Open in CodeSandbox</a>
@@ -441,3 +457,30 @@ const state = useRS({
 <select {...state.$g}> ... </select>
 
 ```
+<br/>
+
+## ⚛ Reactive Props
+
+In traditional React, Props are considered immutable and mutating them does nothing. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
+
+This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize them because we aren't passing any functions at all.
+
+Let's see this in action
+
+<details>
+
+<summary> Todos App </summary>
+</details>
+
+
+
+## FAQs
+
+
+### Can I use useRS hook more than once ?
+
+### How does it work, Is it magic ?
+
+### Should I ditch useState and just use useRS ?
+
+###

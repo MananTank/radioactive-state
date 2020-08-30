@@ -3,16 +3,15 @@ import getRS from './utils/getRS'
 import getOnChange from './utils/getOnChange'
 import {checkInitialState} from './utils/errors'
 
+const inc = x => x + 1
+
 const useRS = arg => {
-  const [, forceUpdate] = useReducer(x => x + 1, 0)
+  const [, forceUpdate] = useReducer(inc, 0)
   const RS = useRef()
 
   // when running this hook for the first time, infect the object with radiation
   if (!RS.current) {
-    let initialState = arg
-    if (typeof initialState === 'function') {
-      initialState = arg()
-    }
+    const initialState = typeof arg === 'function' ? arg() : arg
     checkInitialState(initialState)
     const onChange = getOnChange(RS, forceUpdate)
     RS.current = getRS(initialState, onChange)
