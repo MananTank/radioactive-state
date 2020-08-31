@@ -3,3 +3,4 @@ __test__
 .eslintrc.js
 .babel.config.js
 .vscode
+coverage
