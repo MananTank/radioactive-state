@@ -20,13 +20,12 @@ const getRS = (_state, onChange, chain = []) => {
   // if state is a function, call that function and use that as state
   const state = typeof _state === 'function' ? _state() : _state
 
-  // non-object types can not be radioactive
+  // return non-object types as is
   if (typeof state !== 'object' || state === null) return state
 
-  // make wrapper to save reactive children
+  // save reactive children to wrapper
   const radioactiveWrapper = Array.isArray(state) ? [] : {}
 
-  // save reactive children to wrapper
   Object.keys(state).forEach((key) => {
     radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
@@ -35,14 +34,8 @@ const getRS = (_state, onChange, chain = []) => {
   return new Proxy(radioactiveWrapper, {
 
     set(target, prop, value) {
-      if (prop === '__disableOnChange__') {
-        disableOnChange = value
-        return true
-      }
-      else {
-        if (disableOnChange) return Reflect.set(target, prop, value)
-        return onChange([...chain, prop], value, 'set')
-      }
+      if (disableOnChange) return Reflect.set(target, prop, value)
+      return onChange([...chain, prop], value, 'set')
     },
 
     deleteProperty(target, prop) {
@@ -50,23 +43,27 @@ const getRS = (_state, onChange, chain = []) => {
       return onChange([...chain, prop], undefined, 'deleteProperty')
     },
 
-    // for reactive bindings of inputs
-    get(target, $prop) {
+    get(target, prop) {
 
-      if ($prop[0] === '$') {
-        const prop = $prop.substr(1)
+      // reactive binding API
+      if (prop[0] === '$') {
+        const actualProp = prop.substr(1)
+        const propType = typeof target[actualProp]
         let key = 'value'
-        if (typeof target[prop] === 'boolean') key = 'checked'
+        if (propType === 'boolean') key = 'checked'
         return {
-          [key]: target[prop],
+          [key]: target[actualProp],
           onChange:  e => {
             let value = e.target[key]
-            if (typeof target[prop] === 'number') value = Number(value)
-            onChange([...chain, prop], value, 'set')
+            if (propType === 'number') value = Number(value)
+            onChange([...chain, actualProp], value, 'set')
           }
         }
       }
-      return Reflect.get(target, $prop)
+
+      if (prop === '__disableOnChange__') return value => { disableOnChange = value }
+
+      return Reflect.get(target, prop)
     },
 
   })

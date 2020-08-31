@@ -24,8 +24,8 @@ export default mutate
 
 // silent mutate mutates the radioactive state in a way that does not trigger onChange
 export const silentMutate = (state, ...args) => {
-  state.__disableOnChange__ = true
+  state.__disableOnChange__(true)
   const success = mutate(state, ...args )
-  state.__disableOnChange__ = false
+  state.__disableOnChange__(false)
   return success
 }

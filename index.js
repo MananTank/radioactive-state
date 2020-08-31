@@ -9,7 +9,7 @@ const useRS = arg => {
   const [, forceUpdate] = useReducer(inc, 0)
   const RS = useRef()
 
-  // when running this hook for the first time, infect the object with radiation
+  // when running this hook for the first time
   if (!RS.current) {
     const initialState = typeof arg === 'function' ? arg() : arg
     checkInitialState(initialState)
