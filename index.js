@@ -21,4 +21,3 @@ const useRS = arg => {
 }
 
 export default useRS
-

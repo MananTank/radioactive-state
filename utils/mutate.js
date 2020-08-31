@@ -1,4 +1,3 @@
-
 /*
 * Mutate the given state using the chain value and trap
 * For example:
