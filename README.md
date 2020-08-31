@@ -43,7 +43,7 @@
 
 ☢ Deeply Reactive, Directly Mutate State at any level to Update Component
 
-🏎️ Blazing Fast - 25% faster than `useState`
+⚡ Blazing Fast - 25% faster than `useState`
 
 📺 No Extra Re-Renders - Auto Mutation batching
 
@@ -53,46 +53,39 @@
 
 ⚛ Reactive Props !
 
-
 ☕ Zero Dependencies, Ultra Light-Weight `830 b`
 
-<br />
 
----
 <br/>
 
 ## 🎯 Goal
 
 **Make React development as easy as possible** with an elegant and powerful state management API that improves your workflow and makes your applications faster and less error prone.
 
-"Write less, do more and do it with elegance."
-
 <br/>
 
-## 🤔 Motivation
+## 🌻 Motivation
 
 While the React's `useState` hook has been great for simple states, it is still **a pain to update a complex state**.
 
-It also comes with other problems like **not having the access to fresh state right away** after the state is set and async event handlers using the old value of state because of closure. These problems occur because `useState`'s state only updates after a re-render. This can create frustrating bugs.
+It also comes with other problems like **not having the access to fresh state right away** after the state is set and closure problems because of `useState`'s state only updating the state's value after a re-render. This can create frustrating bugs.
 
-We can eliminate all these problems and introduce exciting new features in React with a **Truly Reactive State !**
+We can eliminate these problems, improve performance and introduce exciting new features in React with a **Truly Reactive State !**
 
 Enter `radioactive-state`
 
 <br/>
 
-## 🧐 What's a Radioactive-State ?
+## ☢️ What's a Radioactive-State ?
 
 > Radioactive state is a **deeply reactive** state.
 > When it is mutated at any level ( shallow or deep ) it re-renders the component automatically !
 
-No need to set the state. No need to use libraries like immer.js to produce a new State. No overhead of creating a new state at all!
-
-**Just mutate your state, that's it !**
+No need to set the state. No need to use libraries like immer.js to produce a new State. No overhead of creating a new state at all! **Just mutate your state, that's it !**
 
 <br/>
 
-## Examples
+## ✨ useRS hook
 
 `radioactive-state` gives you a hook - `useRS` ( use radioactive state ) which lets you create a radioactive state in your React Components.
 Let's see a few simple examples :
@@ -348,7 +341,7 @@ Live Demo
 
 <br/>
 
-## 🏎️ Radioactive State is blazing fast !
+## ⚡ Radioactive State is blazing fast !
 
 `radioactive-state` is **25% faster** than `useState` for a fairly Complex State.
 
@@ -463,13 +456,21 @@ const state = useRS({
 
 In traditional React, Props are considered immutable and mutating them does nothing. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
 
-This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize them because we aren't passing any functions at all.
+This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize that function
 
 Let's see this in action
 
 <details>
+  <br/>
+  <summary> Todos App
+    <p align='center'>
+      <img align='center' src='img/todos.gif' width='350'/>
+    </p>
+  </summary>
 
-<summary> Todos App </summary>
+  <a href='https://codesandbox.io/s/todos-example-zivos?file=/src/AddTodo.js' target='_black'>
+  Live Demo
+  </a>
 </details>
 
 
@@ -477,10 +478,8 @@ Let's see this in action
 ## FAQs
 
 
-### Can I use useRS hook more than once ?
+#### Can I use useRS hook more than once ?
 
-### How does it work, Is it magic ?
+#### How does it work, Is it magic ?
 
-### Should I ditch useState and just use useRS ?
-
-###
+#### Should I ditch useState and just use useRS ?
