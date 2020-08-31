@@ -1,5 +1,3 @@
-
-
 export const checkInitialState = initialState => {
 
   const msg = 'useRadioActive() hook takes object types as argument, such as object or array.\n' +

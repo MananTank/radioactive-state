@@ -4,7 +4,6 @@
 // for that you can check the value of timer.set
 // only call afterSync if timer.set is false
 
-
 const afterSync = (fn, timer) => {
   timer.set = true
   setTimeout(() => {
