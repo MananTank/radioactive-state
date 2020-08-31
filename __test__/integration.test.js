@@ -1,7 +1,6 @@
 import getRS from '../utils/getRS'
 import getOnChange from '../utils/getOnChange'
-
-const wait = (ms) => new Promise( (res) => setTimeout( res, ms))
+import {wait} from './utils'
 
 
 test('BATCHING: multiple subsequent mutations calls forceUpdate only once', async () => {

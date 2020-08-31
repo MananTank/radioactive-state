@@ -48,16 +48,22 @@ const getRS = (_state, onChange, chain = []) => {
       // reactive binding API
       if (prop[0] === '$') {
         const actualProp = prop.substr(1)
-        const propType = typeof target[actualProp]
-        let key = 'value'
-        if (propType === 'boolean') key = 'checked'
-        return {
-          [key]: target[actualProp],
-          onChange:  e => {
-            let value = e.target[key]
-            if (propType === 'number') value = Number(value)
-            onChange([...chain, actualProp], value, 'set')
+        if (target.hasOwnProperty(actualProp)) {
+
+          let key = 'value'
+          const propType = typeof target[actualProp]
+          if (propType === 'boolean') key = 'checked'
+
+          const binding =  {
+            [key]: target[actualProp],
+            onChange: e => {
+              let value = e.target[key]
+              if (propType === 'number') value = Number(value)
+              onChange([...chain, actualProp], value, 'set')
+            }
           }
+
+          return binding
         }
       }
 
