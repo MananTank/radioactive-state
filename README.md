@@ -220,6 +220,26 @@ So, No matter how many times you mutate the state, it only triggers re-render on
 
 
 <!-- --------------------------------------------------------------------- -->
+## ⚛ Reactive Props
+
+In traditional React, Props are considered immutable and mutating them does nothing. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
+
+This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize that function
+
+
+### Example: Todos App
+
+<a href='https://codesandbox.io/s/todos-example-zivos?file=/src/AddTodo.js' target='_black'> Live Demo </a>
+
+<p align='center'> <img align='center' src='img/todos.gif' width='350'/> </p>
+
+---
+
+
+<!-- --------------------------------------------------------------------- -->
+
+
+
 ## 🌿 State is always fresh !
 
 unlike `useState`, `useRS`'s state is always fresh
@@ -373,7 +393,6 @@ But, in case of `radioactive-state` **you don't have to create a new state**, yo
 
 
 
-
 <!-- --------------------------------------------------------------------- -->
 ## 🧬 Reactive bindings for inputs
 
@@ -438,9 +457,13 @@ If the initial value is `number` type, onChange function converts the `e.target.
 
 #### Example
 
+
 <p align='center'>
 <img src='./img/form.gif' width='300'>
 </p>
+
+<a href='https://codesandbox.io/s/reactive-bindings-all-types-dleod?file=/src/App.js' target="_blank" title='counter app'> Live Demo </a>
+
 
 ```jsx
 const state = useRS({
@@ -477,21 +500,7 @@ return (
 
 
 
-<!-- --------------------------------------------------------------------- -->
-## ⚛ Reactive Props
 
-In traditional React, Props are considered immutable and mutating them does nothing. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
-
-This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize that function
-
-
-### Example: Todos App
-
-<a href='https://codesandbox.io/s/todos-example-zivos?file=/src/AddTodo.js' target='_black'> Live Demo </a>
-
-<p align='center'> <img align='center' src='img/todos.gif' width='350'/> </p>
-
----
 
 
 
