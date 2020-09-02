@@ -60,16 +60,6 @@
 
 
 
-## 🎯 Goal
-
-**Make React development as easy as possible** with an elegant and powerful state management API that improves your workflow and makes your applications faster and less error prone.
-
-<br/>
-
-
-
-
-
 ## 🌻 Motivation
 
 While the React's `useState` hook has been great for simple states, it is still **a pain to update a complex state**.
@@ -132,8 +122,6 @@ Let's see a few simple examples :
   ```
 </details>
 
-
-
 ---
 
 
@@ -186,7 +174,6 @@ Let's see a few simple examples :
   };
   ```
 </details>
-
 <br />
 
 
@@ -363,6 +350,8 @@ Let's see those problems and see how `radioactive-state` is immune to them.
 <br/>
 
 
+
+
 <!-- --------------------------------------------------------------------- -->
 ## ⚡ Radioactive State is blazing fast !
 
@@ -381,6 +370,7 @@ In the case of `useState`, every time you want to update the state, you have to 
 But, in case of `radioactive-state` **you don't have to create a new state**, you just mutate the state and that's it. radioactive-state **does not create a newState** under the hood either. There are other optimizations as well, which makes sure no extra work is done, no extra re-renders are triggered.
 
 <br/>
+
 
 
 
@@ -424,8 +414,6 @@ But, in case of `radioactive-state` **you don't have to create a new state**, yo
   ---
 
 </details>
-<br/>
-
 
 <!-- --------------------------------------------------------------------- -->
 radioactive-state provides a binding API that lets you bind an input's value to a key in state.
@@ -472,6 +460,8 @@ const state = useRS({
 
 ```
 <br/>
+
+
 
 
 

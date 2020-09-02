@@ -44,7 +44,6 @@ const getRS = (_state, onChange, chain = []) => {
     },
 
     get(target, prop) {
-
       // reactive binding API
       if (prop[0] === '$') {
         const actualProp = prop.substr(1)
