@@ -511,9 +511,7 @@ return (
 <details>
   <summary>Can I use useRS hook more than once ? </summary>
 
-  **Yes.**
-
-  You don't have to have all of the state of the component inside the state object.
+  **Yes.** You don't have to put all of the state of the component inside the state object. You can use the hook more than once.
 
    **Example**
 
@@ -554,9 +552,9 @@ The library uses **JavaScript Proxy** to create a deeply reactive object by recu
 
 <!-- faq 3 -->
 <details>
-<summary> Should I ditch `useState` and use this instead ? </summary>
+<summary> Should I ditch the <code>useState</code> and use <code> useRS </code> instead ? </summary>
 
-Well, sure. `useRS` is objectively better than useState. Go ahead !
+Well, sure. `useRS` is objectively better than useState. If your team is onboard with it, Go ahead !
 
 </details>
 
