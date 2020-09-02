@@ -14,6 +14,7 @@ export const mutate = (state, chain, value, trap) => {
   let target = state
   chain.slice(0, -1).forEach(key => target = target[key])
   const prop = chain[chain.length - 1]
+  if (target.__isRadioactive__) target.__INC$__()
   return Reflect[trap](target, prop, value)
 }
 

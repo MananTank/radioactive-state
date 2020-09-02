@@ -30,6 +30,11 @@ const getRS = (_state, onChange, chain = []) => {
     radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
 
+
+  // this will be incremented when state is mutated
+  // this is used in change detection API
+  let $ = 0
+
   // then make the object itself radioactive
   return new Proxy(radioactiveWrapper, {
 
@@ -44,6 +49,14 @@ const getRS = (_state, onChange, chain = []) => {
     },
 
     get(target, prop) {
+
+      // isRadioactive API
+      if (prop === '__isRadioactive__') return true
+
+      // change detection API
+      if (prop === '$') return $
+      if (prop === '__INC$__') return () => { $++ }
+
       // reactive binding API
       if (prop[0] === '$') {
         const actualProp = prop.substr(1)
