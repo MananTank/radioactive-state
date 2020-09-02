@@ -438,25 +438,37 @@ If the initial value is `number` type, onChange function converts the `e.target.
 
 #### Example
 
+<p align='center'>
+<img src='./img/form.gif' width='300'>
+</p>
+
 ```jsx
-
 const state = useRS({
-  a: 20,
-  b: 10,
-  c: true,
-  d: false,
-  e: '',
-  f: '',
-  g: ''
-})
+  a: 69,
+  b: 420,
+  c: "Hello",
+  d: "Write something here",
+  e: true,
+  f: "bar"
+});
 
-<input type='number' {...state.$age} />
-<input type='range' {...state.$b} />
-<input type='checkbox' {...state.$c} />
-<input type='radio' {...state.$d} />
-<input type='text' {...state.$e} />
-<textarea {...state.$f} />
-<select {...state.$g}> ... </select>
+const { $a, $b, $c, $d, $e, $f } = state;
+
+return (
+  <div className="App">
+    <pre> {JSON.stringify(state, null, 2)}</pre>
+    <input {...$a} type="number" />
+    <input {...$b} type="range" min="0" max="1000" />
+    <input {...$c} type="text" />
+    <textarea {...$d} />
+    <input {...$e} type="checkbox" />
+    <select {...$f}>
+      <option value="foo"> foo </option>
+      <option value="bar"> bar </option>
+      <option value="baz"> baz </option>
+    </select>
+  </div>
+);
 
 ```
 <br/>
