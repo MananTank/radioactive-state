@@ -80,7 +80,13 @@ Enter `radioactive-state`
 <br/>
 
 
+## Installation
 
+```bash
+npm i radioactive-state
+```
+
+<br/>
 
 
 ## ☢️ What's a Radioactive-State ?
