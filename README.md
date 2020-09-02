@@ -575,7 +575,9 @@ Chat on [Slack](https://join.slack.com/t/radioactive-state/shared_invite/zt-gwd1
 
 ## Author
 
-### [Manan Tank]('https://twitter.com/MananTank_')
+### Manan Tank
+
+Twitter: [@MananTank_]('https://twitter.com/MananTank_' "Manan Tank")
 
 <br/>
 
