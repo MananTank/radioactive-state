@@ -14,12 +14,19 @@
   <img src='https://img.shields.io/bundlephobia/minzip/radioactive-state?color=success&label=size' />
   <!-- downloads npm per week  -->
   <img src='https://img.shields.io/npm/dw/radioactive-state?color=blueviolet' />
-  <!-- language  -->
-  <img src='https://img.shields.io/github/languages/top/MananTank/radioactive-state?color=critical&style=flat' />
+
+  <!-- chat -->
+<a href='https://join.slack.com/t/radioactive-state/shared_invite/zt-gwd1rsvr-vkoizw5RG5rk9rwsdgT3gQ'>
+<img src='https://img.shields.io/badge/Chat-Slack-red'>
+</a>
+
   <!-- stars -->
   <img src='https://img.shields.io/github/stars/MananTank/radioactive-state?style=social&color=%23FFB31A' />
   <!-- follow -->
   <img src='https://img.shields.io/github/followers/MananTank?label=Follow&style=social&color=%23FFB31A' />
+
+
+
   <!-- Twitter intent -->
   <a href='https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FMananTank%2Fradioactive-state&via=MananTank_&text=Make%20your%20@react%20App%20Truly%20Reactive%20with%20radioactive-state&hashtags=react%2CradioactiveState' target='_blank'>
     <img src='https://img.shields.io/twitter/url/http/shields.io.svg?style=social'/>
@@ -497,10 +504,86 @@ return (
 <br/>
 
 
+## FAQs
+
+
+<!-- faq 1 -->
+<details>
+  <summary>Can I use useRS hook more than once ? </summary>
+
+  **Yes.**
+
+  You don't have to have all of the state of the component inside the state object.
+
+   **Example**
+
+  ```javascript
+  const todos = useRS([])
+  const form = useRS({
+    name: '',
+    age: 0,
+  })
+  ```
+
+  While this is okay, **I would advise you to not do this**, Because putting all of state in one object gives you better **performance** in the case of radioactive-state.
+
+  It would also be **hard to store simple value types**, because simple value types can not be mutated and so you would need to wrap it inside an object.
+
+  Example:
+
+  ```javascript
+  const count = useRS(0) // invalid, gives error ❌
+
+  // do this instead
+  const count = useRS( { value: 0 }) // works ✅
+  ```
+
+  This would also make creating reactive bindings awkward. That's why it is **strongly recommended to store all the state into a single object** by using useRS only once !
+
+  ---
+</details>
+
+
+<!-- faq 2 -->
+<details>
+<summary> Is this magic, How does it work ? </summary>
+
+The library uses **JavaScript Proxy** to create a deeply reactive object by recursively proxifying the object. Whenever a mutation occurs in the state tree, a function is called with information about where the mutation took place which schedules an async re-render to update the component to reflect the changes in state to UI.
+
+</details>
+
+<!-- faq 3 -->
+<details>
+<summary> Should I ditch `useState` and use this instead ? </summary>
+
+Well, sure. `useRS` is objectively better than useState. Go ahead !
+
+</details>
 
 
 
+<br/>
 
+## Contributing
+
+PR's are welcome !
+
+Found a Bug ? Create an Issue.
+
+Chat on [Slack](https://join.slack.com/t/radioactive-state/shared_invite/zt-gwd1rsvr-vkoizw5RG5rk9rwsdgT3gQ)
+
+
+<br/>
+
+## Author
+
+### [Manan Tank]('https://twitter.com/MananTank_')
+
+<br/>
+
+## Licence
+
+ISC
 
 
 
@@ -510,8 +593,6 @@ return (
 <!-- ## FAQs
 
 
-#### Can I use useRS hook more than once ?
 
-#### How does it work, Is it magic ?
 
 #### Should I ditch useState and just use useRS ? -->
