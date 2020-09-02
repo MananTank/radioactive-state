@@ -504,12 +504,14 @@ return (
 <br/>
 
 
-## FAQs
+## ❓ FAQs
 
 
 <!-- faq 1 -->
 <details>
   <summary>Can I use useRS hook more than once ? </summary>
+
+  <br/>
 
   **Yes.** You don't have to put all of the state of the component inside the state object. You can use the hook more than once.
 
@@ -546,15 +548,19 @@ return (
 <details>
 <summary> Is this magic, How does it work ? </summary>
 
+<br/>
+
 The library uses **JavaScript Proxy** to create a deeply reactive object by recursively proxifying the object. Whenever a mutation occurs in the state tree, a function is called with information about where the mutation took place which schedules an async re-render to update the component to reflect the changes in state to UI.
 
 </details>
 
 <!-- faq 3 -->
 <details>
-<summary> Should I ditch the <code>useState</code> and use <code> useRS </code> instead ? </summary>
+<summary> Should I ditch the <code>useState</code> and use <code> useRS</code> instead ? </summary>
 
-Well, sure. `useRS` is objectively better than useState. If your team is onboard with it, Go ahead !
+<br/>
+
+Well, Sure. If your team is on-board with it, Go ahead !
 
 </details>
 
@@ -562,7 +568,7 @@ Well, sure. `useRS` is objectively better than useState. If your team is onboard
 
 <br/>
 
-## Contributing
+## 💙 Contributing
 
 PR's are welcome !
 
@@ -570,21 +576,31 @@ Found a Bug ? Create an Issue.
 
 Chat on [Slack](https://join.slack.com/t/radioactive-state/shared_invite/zt-gwd1rsvr-vkoizw5RG5rk9rwsdgT3gQ)
 
+<br/>
+
+
+## 💖 Like this project ?
+
+Leave a ⭐ If you think this project is cool.
+
+[Share with the world](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FMananTank%2Fradioactive-state&via=MananTank_&text=Make%20your%20@react%20App%20Truly%20Reactive%20with%20radioactive-state&hashtags=react%2CradioactiveState) ✨
+
+Let me know on [Twitter](https://twitter.com/MananTank_)
+
 
 <br/>
 
-## Author
+## 👨‍💻 Author
 
 ### Manan Tank
 
-Twitter: [@MananTank_]('https://twitter.com/MananTank_' "Manan Tank")
+[Twitter](https://twitter.com/MananTank_ "Manan Tank")
 
 <br/>
 
-## Licence
+## 🍁 Licence
 
-ISC
-
+**ISC**
 
 
 
