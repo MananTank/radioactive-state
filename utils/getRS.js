@@ -30,9 +30,8 @@ const getRS = (_state, onChange, chain = []) => {
     radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
 
-
-  // this will be incremented when state is mutated
-  // this is used in change detection API
+  // this will be incremented by some amount when state is mutated
+  // this is used in mutation flag API
   let $ = 0
 
   // then make the object itself radioactive
@@ -53,9 +52,11 @@ const getRS = (_state, onChange, chain = []) => {
       // isRadioactive API
       if (prop === '__isRadioactive__') return true
 
-      // change detection API
+      // mutation flag API
       if (prop === '$') return $
       if (prop === '__INC$__') return () => { $++ }
+
+      if (prop === '__disableOnChange__') return value => { disableOnChange = value }
 
       // reactive binding API
       if (prop[0] === '$') {
@@ -78,8 +79,6 @@ const getRS = (_state, onChange, chain = []) => {
           return binding
         }
       }
-
-      if (prop === '__disableOnChange__') return value => { disableOnChange = value }
 
       return Reflect.get(target, prop)
     },

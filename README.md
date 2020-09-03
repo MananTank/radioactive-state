@@ -565,6 +565,10 @@ const state = useRS({
 
 <br/>
 
+
+
+
+
 ## mutation flag `$` for reference types
 
 If we mutate a reference type in state such as array or an object, it's reference stays the same. This can create problem If you want to run some effect when those are updated.
@@ -589,7 +593,7 @@ This happens because useEffect uses a simple comparison `===`
 
 To fix this, instead of adding `state.todos` in dependency array add `state.todos.$`
 
-### state.key.$
+### `state.key.$`
 
 `state.key.$` is a flag - a number which is increment by some amount when key is mutated. So, this becomes a flag for state.key's mutation
 
@@ -619,6 +623,8 @@ useEffect( () => {
 
 
 <br/>
+
+
 
 
 ## ❓ FAQs
