@@ -677,15 +677,6 @@ The library uses **JavaScript Proxy** to create a deeply reactive object by recu
 
 </details>
 
-<!-- faq 3 -->
-<details>
-<summary> Should I ditch the <code>useState</code> and use <code> useRS</code> instead ? </summary>
-
-<br/>
-
-Well, Sure. If your team is on-board with it, Go ahead !
-
-</details>
 
 
 
