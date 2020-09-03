@@ -1,6 +1,7 @@
 export const checkInitialState = initialState => {
-  const msg = 'useRadioActive() hook takes object types as argument, such as object or array.\n' +
-    'Wrap the value in an object to fix this error'
+  const msg = `Invalid Initial State: Expected a reference type, but got "${initialState}" instead.\n` +
+  'useRS() hook takes a reference type as an argument, such as object/array ' +
+  'OR a function that returns an object/array.'
 
   if (typeof initialState !== 'object' && initialState !== null) {
     if (process.env.NODE_ENV !== 'production') throw new Error(msg)
