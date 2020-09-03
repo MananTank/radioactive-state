@@ -101,11 +101,15 @@ No need to set the state. No need to use libraries like immer.js to produce a ne
 
 
 
-
-## ✨ useRS hook
+## ✨ Creating state with useRS
 
 `radioactive-state` gives you a hook - `useRS` ( use radioactive state ) which lets you create a radioactive state in your React Components.
 Let's see a few simple examples :
+
+### Examples
+
+Click on the triangle icon to expand the Example:
+
 
 <details>
 
@@ -412,38 +416,38 @@ But, in case of `radioactive-state` **you don't have to create a new state**, yo
 <details>
   <summary> You can create a controlled input the old way like this </summary>
 
-  ### using the `useState`
-  ```jsx
-    const [input, setInput] = useState("type something");
+### using the `useState`
+```jsx
+  const [input, setInput] = useState("type something");
 
-    <input
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      type='text'
-    />
-    ```
-
-    ### using the useRS
-
-    ```jsx
-    // creating state
-    const state = useRS({
-      input: ''
-    })
-
-    <input
-      value={state.input}
-      onChange={(e) => state.input = e.target.value}
-      type='text'
-    />
+  <input
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    type='text'
+  />
   ```
 
-  Both are fairly easy but becomes annoying if you have a form with multiple inputs
+### using the `useRS`
 
-  You would also have to convert string to number if the input is type 'number' or 'range'.
-  You would also need to use 'checked' prop instead of 'value' for checkboxes and radios
+```jsx
+// creating state
+const state = useRS({
+  input: ''
+})
 
-  ---
+<input
+  value={state.input}
+  onChange={(e) => state.input = e.target.value}
+  type='text'
+/>
+```
+
+Both are fairly easy but becomes annoying if you have a form with multiple inputs
+
+You would also have to convert string to number if the input is type 'number' or 'range'.
+You would also need to use 'checked' prop instead of 'value' for checkboxes and radios
+
+---
 
 </details>
 
@@ -507,6 +511,56 @@ return (
 );
 
 ```
+<br/>
+
+
+## Dealing with expensive initial State
+
+If initial State is expensive to calculate, it would be very naive to do something like this
+
+```javascript
+const state = useRS({
+  x: getX(); // assume that getX is expensive
+})
+```
+
+because getX would run every time the component renders, this is not what we want. we just want to run this function once to get the initial state.
+
+To fix this you can just pass the function as initial State. This is similar to useState
+
+
+```javascript
+// in case of useState you do this
+const x = useState(getX)
+```
+
+```javascript
+// in case of radioactive state, you do this
+const state = useRS({
+  x = getX
+})
+```
+
+You can do this at any level of state tree and even for the entire state as well
+
+```javascript
+// getting entire state from a function
+const state = useRS(getState)
+```
+
+```javascript
+// getting parts of state from a function
+const state = useRS({
+  a: 100
+  b: {
+    c: {
+      d: getD
+    },
+    e: 200
+  }
+})
+```
+
 <br/>
 
 
