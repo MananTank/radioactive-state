@@ -571,7 +571,7 @@ const state = useRS({
 
 ## mutation flag `$` for reference types
 
-If we mutate a reference type in state such as array or an object, it's reference stays the same. This can create problem If you want to run some effect when those are updated.
+If we mutate a reference type in state such as array or an object, it's reference stays the same. This can create problems If you want to run some effect when it is updated.
 
 **Example**
 
@@ -589,13 +589,13 @@ useEffect( () => {
 const addTodo = (todo) => state.todos.push(todo)
 ```
 
-This happens because useEffect uses a simple comparison `===`
+This happens because useEffect uses a simple comparison `===` to check whether the state has changed or not.
 
 To fix this, instead of adding `state.todos` in dependency array add `state.todos.$`
 
 ### `state.key.$`
 
-`state.key.$` is a flag - a number which is increment by some amount when key is mutated. So, this becomes a flag for state.key's mutation
+`state.key.$` is a flag - a number which is increment by some amount when key is mutated. So, this becomes a flag for `state.key`'s mutation
 
 **Example**
 
@@ -607,9 +607,9 @@ useEffect( () => {
 }, [state.todos.$]) // eslint-disable-line
 ```
 
-If you have ESlint setup, it will complain about not adding state.todos in the deps array. You can fix it by disabling eslint for that particular line
+If you have ESlint setup, it will complain about not adding `state.todos` in the dependency array. You can fix it by disabling eslint for that particular line
 
-Note that **this is only necessary of reference type data**, don't do this for value types such number, strings, boolean etc.
+**Note** that **this is only necessary of reference type data**, don't do this for value types such as number, strings, boolean etc.
 
 ```javascript
 const state = useRS({
@@ -619,6 +619,8 @@ const state = useRS({
 useEffect( () => {
   console.log('count changed to', state.count)
 }, [state.count])
+
+// works, because count is a simple value type data
 ```
 
 
