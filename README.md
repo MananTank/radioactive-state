@@ -392,9 +392,9 @@ Let's see those problems and see how `radioactive-state` is immune to them.
 <!-- --------------------------------------------------------------------- -->
 ## ⚡ Radioactive State is blazing fast !
 
-`radioactive-state` is **25% faster** than `useState` for a fairly Complex State.
+`radioactive-state` is **25% faster** than `useState` for an Average React App with fairly Complex state.
 
-> This number is derived from an average of 100 performance tests where an array of 200 objects is rendered and various operations like adding, removing, re-ordering and mutations where done one after another.
+> This number is derived from an average of 100 performance tests where an array of 200 objects is rendered and various operations like adding, removing, re-ordering and mutations were done one after another.
 
 Note that, radioactive-state **keeps getting faster and faster** compared to useState if you keep increasing the complexity of state, **even more than 25%**
 
