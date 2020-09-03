@@ -514,6 +514,8 @@ return (
 <br/>
 
 
+
+
 ## Dealing with expensive initial State
 
 If initial State is expensive to calculate, it would be very naive to do something like this
@@ -560,6 +562,61 @@ const state = useRS({
   }
 })
 ```
+
+<br/>
+
+## mutation flag `$` for reference types
+
+If we mutate a reference type in state such as array or an object, it's reference stays the same. This can create problem If you want to run some effect when those are updated.
+
+**Example**
+
+```javascript
+const state = useRS( { todos: [] })
+
+useEffect( () => {
+  console.log('todos changed !')
+}, [state.todos])
+
+
+// when called, this would trigger a re-render
+// but the effect would not run because todos hasn't changed its reference
+// it is only mutated
+const addTodo = (todo) => state.todos.push(todo)
+```
+
+This happens because useEffect uses a simple comparison `===`
+
+To fix this, instead of adding `state.todos` in dependency array add `state.todos.$`
+
+### state.key.$
+
+`state.key.$` is a flag - a number which is increment by some amount when key is mutated. So, this becomes a flag for state.key's mutation
+
+**Example**
+
+```javascript
+const state = useRS( { todos: [] })
+
+useEffect( () => {
+  console.log('todos changed to', state.todos) // works !
+}, [state.todos.$]) // eslint-disable-line
+```
+
+If you have ESlint setup, it will complain about not adding state.todos in the deps array. You can fix it by disabling eslint for that particular line
+
+Note that **this is only necessary of reference type data**, don't do this for value types such number, strings, boolean etc.
+
+```javascript
+const state = useRS({
+  count: 0
+})
+
+useEffect( () => {
+  console.log('count changed to', state.count)
+}, [state.count])
+```
+
 
 <br/>
 
