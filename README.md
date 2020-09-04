@@ -60,11 +60,7 @@
 
 ⚛ Reactive Props !
 
-☕ Zero Dependencies, Ultra Light-Weight `830 b`
-
-<br/>
-
-
+☕ Zero Dependencies, Ultra Light-Weight `< 1kb`
 
 
 ## 🌻 Motivation
