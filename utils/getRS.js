@@ -2,7 +2,7 @@
  * getRS returns a "radioactive" object
  * whenever any of it's key or any of it's children's key is mutated, onChange is called
  * onChange is called with (chain, value, trap)
- * chain is basically full 'patch' where the mutation took place
+ * chain is an array of keys, a full 'path' where the mutation took place starting from parent state object
  *
  * For Example:
  *
