@@ -539,7 +539,7 @@ const x = useState(getX)
 ```javascript
 // in case of radioactive state, you do this
 const state = useRS({
-  x = getX
+  x: getX
 })
 ```
 
