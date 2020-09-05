@@ -242,7 +242,7 @@ This can be a **powerful feature**, where **you no longer have to pass functions
 
 ### Example: Todos App
 
-<a href='https://codesandbox.io/s/todos-example-zivos?file=/src/AddTodo.js' target='_black'> Live Demo </a>
+<a href='https://codesandbox.io/s/todos-example-zivos?file=/src/Todos.js' target='_black'> Live Demo </a>
 
 <p align='center'> <img align='center' src='img/todos.gif' width='350'/> </p>
 
