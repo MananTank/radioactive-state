@@ -223,10 +223,29 @@ const doStuff = () => {
 // it will only trigger re-render 1 time! - No extra re-renders! 🤗
 ```
 
-#### 🤨 How is that possible ?
+#### How is that possible ?
 
-When you start mutating your state, radioactive-state schedules an async re-render to run after all the sync code is executed.
-So, No matter how many times you mutate the state, it only triggers re-render once 😙
+Mutations are batched into a one single mutation.
+So, No matter how many times you mutate the state, it only triggers re-render once
+
+This allows you to perform a complex mutation in multiple steps without having to worry about re-renders
+
+<details>
+<summary> Example </summary>
+
+```javascript
+
+const addNewFriend = (newFriendID) => {
+  const {users, userID, request} = state
+  const user = users[userID]
+  const newFriend = users[newFriendID]
+  user.friends.push(newFriendID)
+  newFriend.friends.push(userID)
+}
+```
+
+</details>
+
 
 <br/>
 
