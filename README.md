@@ -62,6 +62,7 @@
 
 ☕ Zero Dependencies, Ultra Light-Weight `< 1kb`
 
+<br/>
 
 ## 🌻 Motivation
 
@@ -398,9 +399,9 @@ But, **for an average web app**, both will have about the **same performance** w
 
 ### Why is it faster than `useState` ?
 
-In the case of `useState`, every time you want to update the state, you have to create a new state and call setter function with the newState.
+In the case of `useState`, every time you want to update the state, you have to create a new state and call setter function with the new state.
 
-But, in case of `radioactive-state` **you don't have to create a new state**, you just mutate the state and that's it. radioactive-state **does not create a newState** under the hood either. There are other optimizations as well, which makes sure no extra work is done, no extra re-renders are triggered.
+But, in case of `radioactive-state` **you don't have to create a new state**, you just mutate the state and that's it. radioactive-state **does not create a new state** under the hood either. There are other optimizations as well, which makes sure no extra work is done, no extra re-renders are triggered.
 
 <br/>
 
@@ -463,10 +464,11 @@ This works because, `state.key` returns the value but `state.$key` returns an ob
 
 Bindings **rely on initial value of the key** in state to figure out what type of input it is
 
-if the initial value is a type of `string` or `number`, `state.$key` return `value` and `onChange`.
-If the initial value is of type `boolean`, `state.$key` returns `checked` and `onChange` props and uses `e.target.checked` internally
+if the initial value is a type of `string` or `number`, `state.$key` returns object containing `value` and `onChange`
 
-If the initial value is `number` type, onChange function converts the `e.target.value` from `string` to `number` then saves it
+If the initial value is type of `boolean`, `state.$key` returns an object containing `checked` and `onChange` props and uses `e.target.checked` internally in the onChange function
+
+If the initial value type of `number`, onChange function converts the `e.target.value` from `string` to `number` then saves it in the key.
 
 #### Example
 
@@ -514,7 +516,7 @@ return (
 
 ## Dealing with expensive initial State
 
-If initial State is expensive to calculate, it would be very naive to do something like this
+If initial State is a result of doing some expensive calculation, ( for example, getting the initial State from localStorage ), It would be very inefficient to directly call it like this
 
 ```javascript
 const state = useRS({
@@ -522,39 +524,39 @@ const state = useRS({
 })
 ```
 
-because getX would run every time the component renders, this is not what we want. we just want to run this function once to get the initial state.
+This is inefficient because getX runs every time the component renders. This is not what we want. We just want to call `getX` only once to get the initial state.
 
-To fix this you can just pass the function as initial State. This is similar to useState
+To fix this you can just pass the function as initial State, without calling it. This is similar to what we do in useState
 
-
+#### `useState`
 ```javascript
-// in case of useState you do this
 const x = useState(getX)
 ```
 
+#### `useRS`
 ```javascript
-// in case of radioactive state, you do this
 const state = useRS({
   x: getX
 })
 ```
 
-You can do this at any level of state tree and even for the entire state as well
+This is valid for entire state tree as well
 
 ```javascript
-// getting entire state from a function
+// assume that getState function when called returns the initial State
 const state = useRS(getState)
 ```
 
+This also valid for any deeply nested key in the state tree
+
 ```javascript
-// getting parts of state from a function
+// assume that getD is a function which when called returns the initial value of d
 const state = useRS({
   a: 100
   b: {
     c: {
       d: getD
-    },
-    e: 200
+    }
   }
 })
 ```
@@ -565,33 +567,32 @@ const state = useRS({
 
 
 
-## mutation flag `$` for reference types
+## ⛳ Mutation flag
 
-If we mutate a reference type in state such as array or an object, it's reference stays the same. This can create problems If you want to run some effect when it is updated.
+If we mutate a reference type data in state such as array or an object, it's reference stays the same. This can create problems If you want to run some effect when it is mutated.
 
 **Example**
 
 ```javascript
-const state = useRS( { todos: [] })
+const state = useRS({
+  todos: []
+})
 
+// when addTodo is called, it would trigger a re-render
+// but the effect would not run because todos is mutated, its reference is same
 useEffect( () => {
-  console.log('todos changed !')
+  console.log('todos changed to ->', state.todos)
 }, [state.todos])
 
 
-// when called, this would trigger a re-render
-// but the effect would not run because todos hasn't changed its reference
-// it is only mutated
 const addTodo = (todo) => state.todos.push(todo)
 ```
 
-This happens because useEffect uses a simple comparison `===` to check whether the state has changed or not.
-
-To fix this, instead of adding `state.todos` in dependency array add `state.todos.$`
+This happens because useEffect uses `===` to check whether the dependencies changed or not. To fix this, instead of adding `state.todos` in dependency array add `state.todos.$`
 
 ### `state.key.$`
 
-`state.key.$` is a flag - a number which is increment by some amount when key is mutated. So, this becomes a flag for `state.key`'s mutation
+`state.key.$` is a number which is increment by some amount when key is mutated. So, `state.key.$` works a mutation flag for `state.key`
 
 **Example**
 
@@ -603,20 +604,23 @@ useEffect( () => {
 }, [state.todos.$]) // eslint-disable-line
 ```
 
-If you have ESlint setup, it will complain about not adding `state.todos` in the dependency array. You can fix it by disabling eslint for that particular line
+If you have ESlint setup, it will complain about not adding `state.todos` in the dependency array. You can fix it by disabling eslint for that particular line.
 
-**Note** that **this is only necessary of reference type data**, don't do this for value types such as number, strings, boolean etc.
+**Note** that **this is only necessary of reference type data**, don't do this for value types such as number, strings, boolean etc. because value types are immutable and they are re-assigned a new value, they are not mutated.
 
 ```javascript
 const state = useRS({
   count: 0
 })
 
+// works
 useEffect( () => {
   console.log('count changed to', state.count)
 }, [state.count])
 
-// works, because count is a simple value type data
+// count is actually assigned a new value, it is not mutated
+// count++ is count = count + 1
+const increment = () => state.count++
 ```
 
 
@@ -646,7 +650,7 @@ useEffect( () => {
   })
   ```
 
-  While this is okay, **I would advise you to not do this**, Because putting all of state in one object gives you better **performance** in the case of radioactive-state.
+  While this is okay, **I would advise you to not do this**, Because putting all of state in one object gives you better **performance** in the case of radioactive-state. (because of better mutation batching)
 
   It would also be **hard to store simple value types**, because simple value types can not be mutated and so you would need to wrap it inside an object.
 
@@ -655,7 +659,6 @@ useEffect( () => {
   ```javascript
   const count = useRS(0) // invalid, gives error ❌
 
-  // do this instead
   const count = useRS( { value: 0 }) // works ✅
   ```
 
@@ -671,8 +674,7 @@ useEffect( () => {
 
 <br/>
 
-The library uses **JavaScript Proxy** to create a deeply reactive object by recursively proxifying the object. Whenever a mutation occurs in the state tree, a function is called with information about where the mutation took place which schedules an async re-render to update the component to reflect the changes in state to UI.
-
+radioactive-state uses **JavaScript Proxy** to create a deeply reactive state by recursively proxifying the state. Whenever a mutation occurs in the state tree, a function is called with information about where the mutation took place which schedules an async re-render to update the component to reflect the changes in state to UI.
 </details>
 
 
@@ -696,8 +698,6 @@ Chat on [Slack](https://join.slack.com/t/radioactive-state/shared_invite/zt-gwd1
 Leave a ⭐ If you think this project is cool.
 
 [Share with the world](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FMananTank%2Fradioactive-state&via=MananTank_&text=Make%20your%20@react%20App%20Truly%20Reactive%20with%20radioactive-state&hashtags=react%2CradioactiveState) ✨
-
-Let me know on [Twitter](https://twitter.com/MananTank_)
 
 
 <br/>
