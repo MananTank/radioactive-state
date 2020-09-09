@@ -594,7 +594,7 @@ const state = useRS({
 // when addTodo is called, it would trigger a re-render
 // but the effect would not run because todos is mutated, its reference is same
 useEffect( () => {
-  console.log('todos changed to ->', state.todos)
+  console.log('todos changed to', state.todos)
 }, [state.todos])
 
 
