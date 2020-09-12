@@ -8,11 +8,12 @@ import afterSync from './afterSync'
 
 const getOnChange = (RS, forceUpdate) => {
   const timer = { set: false }
-  const onChange = (chain, value, trap) => {
+  const onChange = (chain, value, trap, now) => {
     // if adding an object, make it radioactive
     const rValue = (typeof value === 'object' && trap === 'set') ? getRS(value, onChange, chain) : value
     const success = silentMutate(RS.current, chain, rValue, trap)
-    if (!timer.set) afterSync(forceUpdate, timer)
+    if (now) forceUpdate()
+    else if (!timer.set) afterSync(forceUpdate, timer)
     return success
   }
 

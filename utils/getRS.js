@@ -64,19 +64,18 @@ const getRS = (_state, onChange, chain = []) => {
         if (target.hasOwnProperty(actualProp)) {
 
           let key = 'value'
-          let propKey = 'defaultValue'
           const propType = typeof target[actualProp]
           if (propType === 'boolean') {
             key = 'checked'
-            propKey = 'checked'
           }
 
           const binding =  {
-            [propKey]: target[actualProp],
+            [key]: target[actualProp],
             onChange: e => {
               let value = e.target[key]
               if (propType === 'number') value = Number(value)
-              onChange([...chain, actualProp], value, 'set')
+              // to prevent cursor jumping to end, call forceUpdate now !
+              onChange([...chain, actualProp], value, 'set', true) // update now !
             }
           }
 
