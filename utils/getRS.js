@@ -64,11 +64,15 @@ const getRS = (_state, onChange, chain = []) => {
         if (target.hasOwnProperty(actualProp)) {
 
           let key = 'value'
+          let propKey = 'defaultValue'
           const propType = typeof target[actualProp]
-          if (propType === 'boolean') key = 'checked'
+          if (propType === 'boolean') {
+            key = 'checked'
+            propKey = 'checked'
+          }
 
           const binding =  {
-            [key]: target[actualProp],
+            [propKey]: target[actualProp],
             onChange: e => {
               let value = e.target[key]
               if (propType === 'number') value = Number(value)
