@@ -1,40 +1,37 @@
 /*
  * getRS returns a "radioactive" object
- * whenever any of it's key or any of it's children's key is mutated, onChange is called
- * onChange is called with (chain, value, trap)
- * chain is an array of keys, a full 'path' where the mutation took place starting from parent state object
+ * whenever a "radioactive" object is mutated at any level, onChange function is called with (chain, value, trap)
+ * chain is an array of keys, it is a full 'path' where the mutation took place starting from parent state object
  *
  * For Example:
  *
  * * state.a.b.c.d[2] = 100
+ * *
  * * chain : ['a', 'b', 'c', 'd', '2']
  * * value : 100
  * * trap : 'set'
  */
 
-// all RS should share the same disableOnChange
+import isObject from './isObject'
+
+// global flag
+// when disableOnChange is true, mutations made in radioactive-state does not call onChange
 let disableOnChange = false
 
 const getRS = (_state, onChange, chain = []) => {
-
-  // if state is a function, call that function and use that as state
   const state = typeof _state === 'function' ? _state() : _state
+  if (!isObject(state)) return state
 
-  // return non-object types as is
-  if (typeof state !== 'object' || state === null) return state
-
-  // save reactive children to wrapper
+  // make all children radioactive and save it in a wrapper
   const radioactiveWrapper = Array.isArray(state) ? [] : {}
-
   Object.keys(state).forEach((key) => {
     radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
 
-  // this will be incremented by some amount when state is mutated
-  // this is used in mutation flag API
+  // when state is mutated $ gets incremented
   let $ = 0
 
-  // then make the object itself radioactive
+  // make the wrapper radioactive
   return new Proxy(radioactiveWrapper, {
 
     set(target, prop, value) {
@@ -75,7 +72,7 @@ const getRS = (_state, onChange, chain = []) => {
               let value = e.target[key]
               if (propType === 'number') value = Number(value)
               // to prevent cursor jumping to end, call forceUpdate now !
-              onChange([...chain, actualProp], value, 'set', true) // update now !
+              onChange([...chain, actualProp], value, 'set', true)
             }
           }
 
