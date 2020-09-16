@@ -81,7 +81,6 @@ npm i radioactive-state
 
 
 
-
 ## ☢️ What's a Radioactive-State ?
 
 Radioactive state is a **deeply reactive** state.
@@ -132,6 +131,7 @@ const Counter = () => {
 ```
 </details>
 <br/>
+
 ---
 
 
@@ -261,7 +261,7 @@ This can be a **powerful feature**, where **you no longer have to pass functions
   <img align='center' src='img/todos.gif' width='350'/>
 </p>
 
----
+
 <br/>
 
 
