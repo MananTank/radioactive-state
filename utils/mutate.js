@@ -1,14 +1,16 @@
 /*
-* Mutate the given state using the chain value and trap
+* Mutate the given state using the chain, value, and trap
+*
 * For example:
-* to do state.a.b.c.d[2] = 100
+* to perform state.a.b.c.d[2] = 100
+*
 * call the function like this :
 * mutate(state, ['a', 'b', 'c', 'd', '2'], 100, 'set')
 */
 
-// use all keys expect last one in chain to get the target object
-// last key in chain, becomes the prop
-// mutate using the Reflect API
+// use all keys expect last key in chain to get the target
+// use last key as prop
+// then use Reflect API to perform a trap
 
 export const mutate = (state, chain, value, trap) => {
   let target = state
