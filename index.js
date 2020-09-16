@@ -3,10 +3,8 @@ import getRS from './utils/getRS'
 import getOnChange from './utils/getOnChange'
 import {checkInitialState} from './utils/errors'
 
-const inc = x => x + 1
-
 const useRS = arg => {
-  const [, forceUpdate] = useReducer(inc, 0)
+  const [, forceUpdate] = useReducer(x => x + 1, 0)
   const RS = useRef()
 
   // when running this hook for the first time
