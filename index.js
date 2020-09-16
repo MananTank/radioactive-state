@@ -3,7 +3,7 @@ import getRS from './utils/getRS'
 import getOnChange from './utils/getOnChange'
 import {checkInitialState} from './utils/errors'
 
-const useRS = arg => {
+export const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const RS = useRef()
 
