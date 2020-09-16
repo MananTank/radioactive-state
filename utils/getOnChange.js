@@ -11,11 +11,11 @@ import isObject from './isObject'
 const getOnChange = (RS, forceUpdate) => {
   const timer = { set: false }
 
-  const onChange = (chain, value, trap, now) => {
+  const onChange = (chain, value, trap, updateNow) => {
     const addingObject = isObject(value) && trap === 'set'
     const rValue =  addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(RS.current, chain, rValue, trap)
-    if (now) forceUpdate()
+    if (updateNow) forceUpdate()
     else if (!timer.set) afterSync(forceUpdate, timer)
     return success
   }
