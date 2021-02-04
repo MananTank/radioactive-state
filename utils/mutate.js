@@ -8,15 +8,14 @@
 * mutate(state, ['a', 'b', 'c', 'd', '2'], 100, 'set')
 */
 
-// use all keys expect last key in chain to get the target
-// use last key as prop
-// then use Reflect API to perform a trap
-
 export const mutate = (state, chain, value, trap) => {
-  let target = state
-  chain.slice(0, -1).forEach(key => target = target[key])
+  // use all keys except last one in chain to get the target object which we want to mutate
+  const target = chain.slice(0, -1).reduce((t, k) => t = t[k], state)
+  // last key is the prop that we want to mutate on target object
   const prop = chain[chain.length - 1]
-  if (target.__isRadioactive__) target.__INC$__()
+  // if the target is radioactive, mark it as mutated
+  if (target.__isRadioactive__) target.__mutated__()
+  // change the prop of target object, using Reflect API
   return Reflect[trap](target, prop, value)
 }
 
