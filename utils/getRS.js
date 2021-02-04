@@ -51,10 +51,12 @@ const getRS = (_state, onChange, chain = []) => {
 
       // mutation flag API
       if (prop === '$') return $
-      if (prop === '__INC$__') return () => { $++ }
+      if (prop === '__mutated__') return () => $++
 
       // internal API for disabling re-render on state mutation
-      if (prop === '__disableOnChange__') return value => { disableOnChange = value }
+      if (prop === '__disableOnChange__') {
+        return value => { disableOnChange = value }
+      }
 
       // input binding API
       if (prop[0] === '$') {
