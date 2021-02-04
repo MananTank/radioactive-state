@@ -13,6 +13,7 @@
  */
 
 import isObject from './isObject'
+import inputBinding from './inputBinding'
 
 // global flag
 // when disableOnChange is true, mutations made in radioactive-state does not call onChange
@@ -45,8 +46,6 @@ const getRS = (_state, onChange, chain = []) => {
     },
 
     get(target, prop) {
-
-      // isRadioactive API
       if (prop === '__target__') return target
       if (prop === '__isRadioactive__') return true
 
@@ -54,31 +53,12 @@ const getRS = (_state, onChange, chain = []) => {
       if (prop === '$') return $
       if (prop === '__INC$__') return () => { $++ }
 
+      // internal API for disabling re-render on state mutation
       if (prop === '__disableOnChange__') return value => { disableOnChange = value }
 
-      // reactive binding API
+      // input binding API
       if (prop[0] === '$') {
-        const actualProp = prop.substr(1)
-        if (target.hasOwnProperty(actualProp)) {
-
-          let key = 'value'
-          const propType = typeof target[actualProp]
-          if (propType === 'boolean') {
-            key = 'checked'
-          }
-
-          const binding =  {
-            [key]: target[actualProp],
-            onChange: e => {
-              let value = e.target[key]
-              if (propType === 'number') value = Number(value)
-              // to prevent cursor jumping to end, call forceUpdate now !
-              onChange([...chain, actualProp], value, 'set', true)
-            }
-          }
-
-          return binding
-        }
+        return inputBinding(prop, target, chain, onChange)
       }
 
       return Reflect.get(target, prop)
