@@ -2,16 +2,17 @@ const isObject = require('./isObject')
 const inputBinding = require('./inputBinding')
 const schedule = require('./schedule')
 
-const reactify = (_state, forceUpdate, path = []) => {
-  const state = typeof _state === 'function' ? _state() : _state
-  if (!isObject(state)) return state
+const reactify = (state, forceUpdate, path = []) => {
 
-  // make all children radioactive and save it in a wrapper
+  // recursively make all slices of state reactive
   const wrapper = Array.isArray(state) ? [] : {}
-  Object.keys(state).forEach((key) => {
-    wrapper[key] = reactify(state[key], forceUpdate, [...path, key])
+  Object.keys(state).forEach(key => {
+    let slice = state[key]
+    slice = typeof slice === 'function' ? slice() : slice
+    wrapper[key] = isObject(slice) ? reactify(slice, forceUpdate, [...path, key]) : slice
   })
 
+  // counter that keeps track how many times state is mutated
   let mutations = 0
 
   // make the wrapper radioactive
