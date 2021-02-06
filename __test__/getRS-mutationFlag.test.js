@@ -1,10 +1,10 @@
-const getRS = require('../utils/getRS')
+const reactify = require('../utils/reactify')
 const getOnChange = require('../utils/getOnChange')
 
 test('$ is incremented when state (object) is mutated', () => {
 
   const RS = { current: null }
-  RS.current = getRS({ a: 0 }, getOnChange(RS, () => {}))
+  RS.current = reactify({ a: 0 }, getOnChange(RS, () => {}))
   const state = RS.current
 
   expect(state.$).toBe(0)
@@ -16,7 +16,7 @@ test('$ is incremented when state (object) is mutated', () => {
 test('$ is incremented when state (array) is mutated', () => {
 
   const RS = { current: null }
-  RS.current = getRS([200], getOnChange(RS, () => {}))
+  RS.current = reactify([200], getOnChange(RS, () => {}))
   const state = RS.current
 
   expect(state.$).toBe(0)

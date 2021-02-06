@@ -1,11 +1,11 @@
-const getRS = require('../utils/getRS')
+const reactify = require('../utils/reactify')
 
 // REACTIVE BINDINGS FOR INPUTS ----------------------------
 describe('reactive bindings', () => {
 
   const onChange = () => true
   const obj = {a: 10, x: '', y: true}
-  const RS = getRS(obj, onChange)
+  const RS = reactify(obj, onChange)
 
   test('$key returns a binding containing value and onChange for initial value string or number', () => {
     const binding = RS.$a
@@ -35,7 +35,7 @@ describe('reactive bindings', () => {
     const onChange = (_, value) => {
       expect(value).toBe(1000)
     }
-    const RS = getRS({ a: 10}, onChange)
+    const RS = reactify({ a: 10}, onChange)
     RS.$a.onChange({target: {value: '1000'}})
   })
 
@@ -43,7 +43,7 @@ describe('reactive bindings', () => {
     const onChange = (_, value) => {
       expect(value).toBe(false)
     }
-    const RS = getRS({ x: true}, onChange)
+    const RS = reactify({ x: true}, onChange)
     const binding = RS.$x
     expect(binding.checked).toBe(true)
     binding.onChange({target: {checked: false}})

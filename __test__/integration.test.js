@@ -1,4 +1,4 @@
-const getRS = require('../utils/getRS')
+const reactify = require('../utils/reactify')
 const getOnChange = require('../utils/getOnChange')
 const {wait} = require('./utils')
 
@@ -7,7 +7,7 @@ test('BATCHING: multiple subsequent mutations calls forceUpdate only once', asyn
   const forceUpdate = jest.fn()
 
   const rs = { current: null }
-  rs.current = getRS({ value: 0 }, getOnChange(rs, forceUpdate))
+  rs.current = reactify({ value: 0 }, getOnChange(rs, forceUpdate))
 
   // doing multiple mutations
   rs.current.value++
@@ -29,7 +29,7 @@ test('BATCHING: multiple subsequent mutations calls forceUpdate only once', asyn
 test('FRESH STATE: state is always fresh, even directly after mutating the state', () => {
 
   const rs = { current: null }
-  rs.current = getRS({ value: 0 }, getOnChange(rs, () => {} ))
+  rs.current = reactify({ value: 0 }, getOnChange(rs, () => {} ))
 
   // doing multiple mutations
   expect(rs.current.value).toBe(0)
@@ -49,7 +49,7 @@ test('INFECTION: newly added object in the radioactive state also becomes radioa
   const forceUpdate = jest.fn()
 
   const rs = { current: null }
-  rs.current = getRS({ a: 0 }, getOnChange(rs, forceUpdate))
+  rs.current = reactify({ a: 0 }, getOnChange(rs, forceUpdate))
 
   rs.current.a = { b: 200 }
   // forceUpdate is called after all the code runs

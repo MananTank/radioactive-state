@@ -1,15 +1,15 @@
-const getRS = require('../utils/getRS')
+const reactify = require('../utils/reactify')
 
 test('entire state can be initialized with a function instead of object', () => {
   const obj = {a: 100}
-  const RS = getRS( () => obj)
+  const RS = reactify( () => obj)
   expect(RS.a).toBe(100)
 })
 
 
 test('slices of state can be initialized with a function instead of object', () => {
 
-  const RS = getRS({
+  const RS = reactify({
     a: 100,
     b: () => 200,
     c: {
