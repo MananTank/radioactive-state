@@ -1,5 +1,5 @@
 // schedule the callback (cb) to be run asynchronously only once
-const afterSync = (cb) => {
+const schedule = (cb) => {
   if (!cb.scheduled) {
     cb.scheduled = true
     setTimeout(() => {
@@ -9,4 +9,4 @@ const afterSync = (cb) => {
   }
 }
 
-module.exports = afterSync
+module.exports = schedule

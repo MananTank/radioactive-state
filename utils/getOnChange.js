@@ -1,6 +1,6 @@
 const getRS = require('./getRS')
 const {silentMutate} = require('./mutate')
-const afterSync = require('./afterSync')
+const schedule = require('./schedule')
 const isObject = require('./isObject')
 
 /* getOnChange returns an onChange function
@@ -14,7 +14,7 @@ const getOnChange = (RS, forceUpdate) => {
     const addingObject = isObject(value) && trap === 'set'
     const rValue =  addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(RS.current, chain, rValue, trap)
-    updateNow ? forceUpdate() : afterSync(forceUpdate)
+    updateNow ? forceUpdate() : schedule(forceUpdate)
     return success
   }
 
