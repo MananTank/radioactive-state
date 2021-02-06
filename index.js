@@ -1,6 +1,5 @@
 const { useRef, useReducer } = require('react')
-const getRS = require('./utils/getRS')
-const getOnChange = require('./utils/getOnChange')
+const reactify = require('./utils/reactify')
 const {checkInitialState} = require('./utils/errors')
 
 const useRS = arg => {
@@ -11,8 +10,7 @@ const useRS = arg => {
   if (!RS.current) {
     const initialState = typeof arg === 'function' ? arg() : arg
     checkInitialState(initialState)
-    const onChange = getOnChange(RS, forceUpdate)
-    RS.current = getRS(initialState, onChange)
+    RS.current = reactify(initialState, forceUpdate)
   }
 
   return RS.current
