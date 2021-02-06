@@ -2,7 +2,7 @@ const isObject = require('./isObject')
 const inputBinding = require('./inputBinding')
 const schedule = require('./schedule')
 const unwrap = require('./unwrap')
-
+const unReactify = require('./unReactify')
 
 const reactify = (state, forceUpdate, path = []) => {
 
@@ -40,17 +40,12 @@ const reactify = (state, forceUpdate, path = []) => {
     },
 
     get(target, prop) {
-      // return original target
-      if (prop === '__target__') return target
-
+      if (prop === '__target__') return unReactify(target)
       if (prop === '__isRadioactive__') return true
-
-      // mutation flag API
+      // mutation count
       if (prop === '$') return mutations
-
-      // input binding API
+      // inputBinding
       if (prop[0] === '$') return inputBinding(prop, target, forceUpdate)
-
       else return Reflect.get(target, prop)
     },
 
