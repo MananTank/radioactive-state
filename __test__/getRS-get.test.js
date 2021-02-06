@@ -1,17 +1,6 @@
 const getRS = require('../utils/getRS')
 
-
-test('key __disableOnChange__ returns a function', () => {
-  const onChange = () => true
-  const RS = getRS({}, onChange)
-  expect( typeof RS.__disableOnChange__ ).toBe('function')
-})
-
 // REACTIVE BINDINGS FOR INPUTS ----------------------------
-
-
-
-
 describe('reactive bindings', () => {
 
   const onChange = () => true
