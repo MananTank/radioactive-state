@@ -1,12 +1,12 @@
-// call fn() after all the sync code is completed
-// call afterSync() if timer.set === false to ensure that fn is only called once
-
-const afterSync = (fn, timer) => {
-  timer.set = true
-  setTimeout(() => {
-    fn()
-    timer.set = false
-  }, 0)
+// schedule the callback (cb) to be run asynchronously only once
+const afterSync = (cb) => {
+  if (!cb.scheduled) {
+    cb.scheduled = true
+    setTimeout(() => {
+      cb()
+      cb.scheduled = false
+    }, 0)
+  }
 }
 
 module.exports = afterSync
