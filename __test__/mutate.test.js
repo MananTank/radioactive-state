@@ -1,5 +1,4 @@
-import mutate from '../utils/mutate'
-
+const {mutate} = require('../utils/mutate')
 
 test('shallow mutations (set) on object', () => {
   const obj = {

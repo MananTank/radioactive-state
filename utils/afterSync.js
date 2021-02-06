@@ -9,4 +9,4 @@ const afterSync = (fn, timer) => {
   }, 0)
 }
 
-export default afterSync
+module.exports = afterSync

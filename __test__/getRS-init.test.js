@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+const getRS = require('../utils/getRS')
 
 test('entire state can be initialized with a function instead of object', () => {
   const obj = {a: 100}

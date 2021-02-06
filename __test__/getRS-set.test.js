@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+const getRS = require('../utils/getRS')
 
 // -----------------------------------------------
 test('shallow mutations on object', () => {

@@ -1,7 +1,7 @@
-import getRS from './getRS'
-import {silentMutate} from './mutate'
-import afterSync from './afterSync'
-import isObject from './isObject'
+const getRS = require('./getRS')
+const {silentMutate} = require('./mutate')
+const afterSync = require('./afterSync')
+const isObject = require('./isObject')
 
 /* getOnChange returns an onChange function
  * this onChange function batches all the mutations that take place in RS.current
@@ -23,4 +23,4 @@ const getOnChange = (RS, forceUpdate) => {
   return onChange
 }
 
-export default getOnChange
+module.exports = getOnChange

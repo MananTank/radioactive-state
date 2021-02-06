@@ -1,9 +1,9 @@
-import { useRef, useReducer } from 'react'
-import getRS from './utils/getRS'
-import getOnChange from './utils/getOnChange'
-import {checkInitialState} from './utils/errors'
+const { useRef, useReducer } = require('react')
+const getRS = require('./utils/getRS')
+const getOnChange = require('./utils/getOnChange')
+const {checkInitialState} = require('./utils/errors')
 
-export const useRS = arg => {
+const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const RS = useRef()
 
@@ -18,4 +18,4 @@ export const useRS = arg => {
   return RS.current
 }
 
-export default useRS
+module.exports = useRS

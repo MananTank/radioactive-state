@@ -8,7 +8,7 @@
 * mutate(state, ['a', 'b', 'c', 'd', '2'], 100, 'set')
 */
 
-export const mutate = (state, chain, value, trap) => {
+const mutate = (state, chain, value, trap) => {
   // use all keys except last one in chain to get the target object which we want to mutate
   const target = chain.slice(0, -1).reduce((t, k) => t = t[k], state)
   // last key is the prop that we want to mutate on target object
@@ -20,11 +20,11 @@ export const mutate = (state, chain, value, trap) => {
 }
 
 // silent mutate mutates the radioactive state in a way that does not trigger onChange
-export const silentMutate = (state, ...args) => {
+const silentMutate = (state, ...args) => {
   state.__disableOnChange__(true)
   const success = mutate(state, ...args)
   state.__disableOnChange__(false)
   return success
 }
 
-export default mutate
+module.exports = { mutate, silentMutate }

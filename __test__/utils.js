@@ -1,1 +1,3 @@
-export const wait = (ms) => new Promise( (res) => setTimeout( res, ms))
+const wait = (ms) => new Promise( (res) => setTimeout( res, ms))
+
+module.exports = {wait}

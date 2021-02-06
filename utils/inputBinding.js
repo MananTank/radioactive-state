@@ -22,4 +22,4 @@ const inputBinding = (prop, target, chain, onChange) => {
   }
 }
 
-export default inputBinding
+module.exports = inputBinding

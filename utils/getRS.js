@@ -12,8 +12,8 @@
  * * trap : 'set'
  */
 
-import isObject from './isObject'
-import inputBinding from './inputBinding'
+const isObject = require('./isObject')
+const inputBinding = require('./inputBinding')
 
 // global flag
 // when disableOnChange is true, mutations made in radioactive-state does not call onChange
@@ -69,4 +69,4 @@ const getRS = (_state, onChange, chain = []) => {
   })
 }
 
-export default getRS
+module.exports = getRS

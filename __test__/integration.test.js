@@ -1,7 +1,6 @@
-import getRS from '../utils/getRS'
-import getOnChange from '../utils/getOnChange'
-import {wait} from './utils'
-
+const getRS = require('../utils/getRS')
+const getOnChange = require('../utils/getOnChange')
+const {wait} = require('./utils')
 
 test('BATCHING: multiple subsequent mutations calls forceUpdate only once', async () => {
 

@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+const getRS = require('../utils/getRS')
 
 test('after __disableOnChange__ is called with true, onChange is not called', async () => {
   const onChange = jest.fn( () => true)

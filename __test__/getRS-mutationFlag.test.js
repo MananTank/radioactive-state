@@ -1,6 +1,5 @@
-import getRS from '../utils/getRS'
-import getOnChange from '../utils/getOnChange'
-
+const getRS = require('../utils/getRS')
+const getOnChange = require('../utils/getOnChange')
 
 test('$ is incremented when state (object) is mutated', () => {
 

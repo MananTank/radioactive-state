@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+const getRS = require('../utils/getRS')
 
 test('value types are simply returned as it is', () => {
   expect(getRS(10)).toBe(10)
