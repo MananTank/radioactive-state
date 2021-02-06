@@ -11,10 +11,18 @@ const isObject = require('./isObject')
 const getOnChange = (RS, forceUpdate) => {
 
   const onChange = (chain, value, trap, updateNow) => {
+    // if a new object is added and it's not reactive, it needs to be made reactive
     const addingObject = isObject(value) && trap === 'set'
-    const rValue =  addingObject ? getRS(value, onChange, chain) : value
-    const success = silentMutate(RS.current, chain, rValue, trap)
+    const addingNonReactiveObject = addingObject && !value.__isRadioactive__
+    const reactiveValue = addingNonReactiveObject ? getRS(value, onChange, chain) : value
+
+    // mutate the target
+    const success = silentMutate(RS.current, chain, reactiveValue, trap)
+
+    // schedule re-render
     updateNow ? forceUpdate() : schedule(forceUpdate)
+
+    // return validity of mutation
     return success
   }
 
