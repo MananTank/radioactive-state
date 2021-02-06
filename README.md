@@ -246,7 +246,7 @@ const addNewFriend = (newFriendID) => {
 
 ## ⚛ Reactive Props
 
-In traditional React, Props are considered immutable and mutating them does nothing. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
+In traditional React, Props are considered immutable and mutating them does not trigger re-render. But When using radioactive-state, if you pass a piece of state as a prop to child component, this **child component has the capability to trigger a re-render in parent component** by mutating the prop !
 
 This can be a **powerful feature**, where **you no longer have to pass functions as props to child component for triggering a re-render in parent component**, which also removes the need to memoize that function
 
@@ -539,7 +539,7 @@ This is similar to what we do in useState
 
 #### `useState`
 ```javascript
-const x = useState(getX)
+const [x, setX] = useState(getX)
 ```
 
 #### `useRS`
