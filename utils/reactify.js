@@ -1,6 +1,8 @@
 const isObject = require('./isObject')
 const inputBinding = require('./inputBinding')
 const schedule = require('./schedule')
+const unwrap = require('./unwrap')
+
 
 const reactify = (state, forceUpdate, path = []) => {
 
@@ -8,7 +10,7 @@ const reactify = (state, forceUpdate, path = []) => {
   const wrapper = Array.isArray(state) ? [] : {}
   Object.keys(state).forEach(key => {
     let slice = state[key]
-    slice = typeof slice === 'function' ? slice() : slice
+    slice = unwrap(slice)
     wrapper[key] = isObject(slice) ? reactify(slice, forceUpdate, [...path, key]) : slice
   })
 
