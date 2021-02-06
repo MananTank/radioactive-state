@@ -7,7 +7,7 @@ const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const RS = useRef()
 
-  // when running this hook for the first time
+  // when running this hook for the first time in a component
   if (!RS.current) {
     const initialState = typeof arg === 'function' ? arg() : arg
     checkInitialState(initialState)
