@@ -1,4 +1,4 @@
-const inputBinding = (prop, target, chain, onChange) => {
+const inputBinding = (prop, target, forceUpdate) => {
   const actualProp = prop.substr(1)
   if (target.hasOwnProperty(actualProp)) {
 
@@ -13,8 +13,8 @@ const inputBinding = (prop, target, chain, onChange) => {
       onChange: e => {
         let value = e.target[key]
         if (propType === 'number') value = Number(value)
-        // to prevent cursor jumping to end, call forceUpdate now !
-        onChange([...chain, actualProp], value, 'set', true)
+        Reflect.set(target, actualProp, value)
+        forceUpdate()
       }
     }
 
