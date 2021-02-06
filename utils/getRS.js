@@ -24,18 +24,23 @@ const getRS = (_state, onChange, chain = []) => {
   if (!isObject(state)) return state
 
   // make all children radioactive and save it in a wrapper
-  const radioactiveWrapper = Array.isArray(state) ? [] : {}
+  const wrapper = Array.isArray(state) ? [] : {}
   Object.keys(state).forEach((key) => {
-    radioactiveWrapper[key] = getRS(state[key], onChange, [...chain, key])
+    wrapper[key] = getRS(state[key], onChange, [...chain, key])
   })
 
   // when state is mutated $ gets incremented
   let $ = 0
 
   // make the wrapper radioactive
-  return new Proxy(radioactiveWrapper, {
+  return new Proxy(wrapper, {
 
     set(target, prop, value) {
+      // internal API for disabling re-render on state mutation
+      if (prop === '__disableOnChange__') {
+        disableOnChange = value
+        return true
+      }
       if (disableOnChange) return Reflect.set(target, prop, value)
       return onChange([...chain, prop], value, 'set')
     },
@@ -52,11 +57,6 @@ const getRS = (_state, onChange, chain = []) => {
       // mutation flag API
       if (prop === '$') return $
       if (prop === '__mutated__') return () => $++
-
-      // internal API for disabling re-render on state mutation
-      if (prop === '__disableOnChange__') {
-        return value => { disableOnChange = value }
-      }
 
       // input binding API
       if (prop[0] === '$') {
