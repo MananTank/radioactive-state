@@ -5,16 +5,16 @@ const unwrap = require('./utils/unwrap')
 
 const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
-  const RS = useRef()
+  const ref = useRef()
 
   // when running this hook for the first time in a component
-  if (!RS.current) {
+  if (!ref.current) {
     const initialState = unwrap(arg)
     checkInitialState(initialState)
-    RS.current = reactify(initialState, forceUpdate)
+    ref.current = reactify(initialState, forceUpdate)
   }
 
-  return RS.current
+  return ref.current
 }
 
 module.exports = useRS
