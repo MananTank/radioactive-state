@@ -327,7 +327,7 @@ With radioactive-state, You can use your state with confidence that whenever you
 <a href='https://codesandbox.io/s/userss-state-is-always-fresh-jq741?file=/src/App.js' target='_black'> Live Demo </a>
 
 ```js
-export default function App() {
+function App() {
   const state = useRS({
     count: 0
   });
@@ -348,7 +348,6 @@ export default function App() {
 }
 
 // works as expected 😄 !
-// when you
 ```
 
 ---
