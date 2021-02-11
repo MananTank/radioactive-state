@@ -294,9 +294,9 @@ function App() {
   });
 
   const increment = () => {
-    console.log("before:", state.count); // 0
+    console.log("before:", state.count); // before: 0
     setState({ count: state.count + 1 });
-    console.log("after:", state.count); // 0
+    console.log("after:", state.count); // after: 0
   };
 
   return (
@@ -308,38 +308,49 @@ function App() {
   );
 }
 
-// when increment is called, you would get this logs:
+// when increment is called, you would get the same before and after values
 // before: 0
 // after: 0
 
-// we are not getting the fresh state after it is updated, we have to wait for the re-render
+// we are not getting the fresh state after it is updated,
+// we have to wait for the component to re-render
 ```
 <br/>
 
 
-### `useRS` solves it !
+### `useRS` state is always fresh!
 
 `useRS`'s state is mutated directly by the user. So, **No need to wait for a re-render to get the fresh state**.
 
-<a href='https://codesandbox.io/s/usestate-s-state-is-not-always-fresh-pfzpw?file=/src/App.js' target='_black'> Live Demo </a>
+With radioactive-state, You can use your state with confidence that whenever you use it, it's gonna be fresh ! 😙
+
+<a href='https://codesandbox.io/s/userss-state-is-always-fresh-jq741?file=/src/App.js' target='_black'> Live Demo </a>
 
 ```js
-const state = useRS({
+export default function App() {
+  const state = useRS({
     count: 0
-  })
+  });
 
-const increment = () => {
-  console.log('before: ', state.count)
-  state.count++
-  console.log('after: ', state.count)
+  const increment = () => {
+    console.log("before:", state.count); // before: 0
+    state.count++;
+    console.log("after:", state.count); // after: 1
+  };
+
+  return (
+    <div className="App">
+      <div className="count" onClick={increment}>
+        {state.count}
+      </div>
+    </div>
+  );
 }
 
-// works as expected 😄
-// before: 0
-// after: 1
+// works as expected 😄 !
+// when you
 ```
 
-With radioactive-state, You can use your state with confidence that whenever you use it, it's gonna be fresh ! 😙
 ---
 </details>
 
