@@ -1,5 +1,5 @@
 const inputBinding = (prop, target, forceUpdate) => {
-  const actualProp = prop.substr(1)
+  const actualProp = prop.substring(1)
   if (target.hasOwnProperty(actualProp)) {
 
     let key = 'value'
