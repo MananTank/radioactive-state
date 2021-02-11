@@ -288,19 +288,31 @@ Let's add Logs before and after the state is set in our counter app.
 
 <!-- Code -->
 ```js
-const [count, setCount] = useState(0)
+function App() {
+  const [state, setState] = useState({
+    count: 0
+  });
 
-const increment = () => {
-  console.log('before: ', count)
-  setCount(count + 1)
-  console.log('after: ', count)
+  const increment = () => {
+    console.log("before:", state.count); // 0
+    setState({ count: state.count + 1 });
+    console.log("after:", state.count); // 0
+  };
+
+  return (
+    <div className="App">
+      <div className="count" onClick={increment}>
+        {state.count}
+      </div>
+    </div>
+  );
 }
 
 // when increment is called, you would get this logs:
 // before: 0
 // after: 0
 
-// same thing happens no matter what data type you are using - reference type or value type
+// we are not getting the fresh state after it is updated, we have to wait for the re-render
 ```
 <br/>
 
