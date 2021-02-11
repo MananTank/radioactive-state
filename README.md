@@ -277,6 +277,7 @@ When you set a new state using `useState`'s setter function, it does not directl
 
 Let's see those problems and see how `radioactive-state` is immune to them.
 
+---
 
 <details>
 <summary> <code>useState</code>'s state is not always fresh </summary>
@@ -314,6 +315,7 @@ function App() {
 
 // we are not getting the fresh state after it is updated,
 // we have to wait for the component to re-render
+
 ```
 <br/>
 
@@ -354,6 +356,7 @@ function App() {
 </details>
 
 
+---
 
 <details>
 <summary> <code>useState</code>'s closure problem </summary>
@@ -369,13 +372,26 @@ count is only going to increment to 1 instead of 3, even though increment functi
 
 <!-- Code -->
 ```js
-const [count, setCount] = useState(0)
+function App() {
+  const [state, setState] = useState({
+    count: 0
+  });
 
-const increment = async () => {
-  await someAsyncTask(); // assume that this takes about 500ms
-  setCount(count + 1) // does not work properly
+  // click the button 3 times quickly so increment will be called 3 times
+  // but all three times, it will use the same old value of count
+  const increment = async () => {
+    await someAsyncTask();
+    setState({ count: state.count + 1 });
+  };
+
+  return (
+    <div className="App">
+      <div className="count" onClick={increment}>
+        {state.count}
+      </div>
+    </div>
+  );
 }
-
 ```
 
 This happens because setCount keeps using old value of count until the component re-renders.
@@ -384,10 +400,15 @@ This is because increment function "closes over" the count when it was defined.
 To fix this issue, you update the state using a function like this:
 
 ```js
-setCount(previousCount => previousCount + 1)
+// passing new state instead of function that creates new state fixes this issue
+setCount(prevState => {
+  return {
+    count: prevState.count + 1
+  }
+})
 ```
 
-This gets awkward when you want to update other states based new value of this state.
+This gets awkward and complicated really fast as your state becomes more complex.
 <br/>
 
 ### `useRS` does not have this problem !
@@ -409,6 +430,9 @@ const increment = async () => {
 ```
 ---
 </details>
+
+---
+
 <br/>
 
 
