@@ -411,22 +411,31 @@ setCount(prevState => {
 This gets awkward and complicated really fast as your state becomes more complex.
 <br/>
 
-### `useRS` does not have this problem !
+### `useRS` fixes this issue !
 
 <a href='https://codesandbox.io/s/users-solves-the-closure-problem-2iys5?file=/src/App.js' target='_black'> Live Demo </a>
 
-If you click the button 3 times quickly, count will only increment from 0 to 3 after 500ms. It works as expected 🙌
+If you click the button 3 times quickly, count will  increment from 0 to 3. It works as expected 🙌
 
 ```js
-const state = useRS({
-  count: 0
-})
+function App() {
+  const state = useRS({
+    count: 0
+  });
 
-const increment = async () => {
-  await someAsyncTask(); // assume that this takes about 500ms
-  state.count++ // works ! 😙
+  const increment = async () => {
+    await someAsyncTask();
+    state.count++; // works as expected !
+  };
+
+  return (
+    <div className="App">
+      <div className="count" onClick={increment}>
+        {state.count}
+      </div>
+    </div>
+  );
 }
-
 ```
 ---
 </details>
